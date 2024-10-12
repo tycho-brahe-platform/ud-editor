@@ -1,0 +1,94 @@
+.ud-container {
+  padding-top: var(--spacing-small);
+  margin-top: calc(var(--spacing-xxlarge) + var(--spacing-large));
+  margin-bottom: 16px;
+
+  .sentence-container {
+    display: flex;
+
+    .sentence {
+      padding: 12px;
+      font-size: var(--font-size-regular);
+      line-height: 0.5;
+    }
+
+    .MuiInputBase-root {
+      background-color: var(--color-surface);
+    }
+
+    .MuiAutocomplete-root {
+      width: 40%;
+      margin: 0px 16px;
+    }
+
+    .MuiInputBase-root {
+      padding: 0px;
+    }
+
+    .MuiInputBase-input {
+      padding: 12px !important;
+      font-size: var(--font-size-regular);
+      border-radius: var(--border-radius);
+      border-width: 2px;
+      border-color: var(--color-dark);
+      border-right: none;
+    }
+  }
+
+  .conllu-container {
+    margin-top: 16px;
+
+    .card-header {
+      display: flex;
+      align-items: center;
+
+      .buttons {
+        margin-left: auto;
+      }
+    }
+
+    .card-body {
+      padding: 0px;
+
+      .expression {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: var(--font-size-body);
+        white-space: nowrap;
+        border: 0;
+      }
+    }
+  }
+
+  .ud-viewer-container {
+    margin-top: 16px;
+
+    .card-body {
+      padding: 0px;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      font-weight: var(--font-weight-large);
+      padding: 0px;
+
+      .nav-item {
+        padding: 8px;
+
+        a {
+          font-weight: var(--font-weight-large);
+          color: var(--color-dark);
+
+          &.active {
+            background-color: var(--color-button-hover);
+          }
+        }
+      }
+
+      .buttons {
+        margin-left: auto;
+        padding: 8px;
+      }
+    }
+  }
+}

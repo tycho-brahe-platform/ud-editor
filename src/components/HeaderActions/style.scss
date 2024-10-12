@@ -1,0 +1,30 @@
+.actions-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--color-secondary);
+  height: 40px;
+  margin: 48px 0px 0px 0px;
+  border-bottom: var(--border-default);
+
+  .title {
+    border: none;
+    font-size: var(--font-size-medium);
+    padding: 0px var(--spacing-small);
+  }
+
+  .actions {
+    display: flex;
+    height: 100%;
+    margin-right: 16px;
+
+    .app-button {
+      font-size: var(--font-size-medium);
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+}

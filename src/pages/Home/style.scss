@@ -1,0 +1,57 @@
+.main-container {
+  padding-top: var(--spacing-small);
+  margin-top: calc(var(--spacing-xxlarge) + var(--spacing-large));
+
+  .buttons {
+    display: flex;
+    margin-top: 16px;
+  }
+
+  #canvas {
+    width: 100%;
+    height: 85vh;
+    padding: 16px;
+    background-color: white;
+    border: 1px solid var(--opacity-black-32);
+    box-shadow: var(--shadow);
+  }
+
+  .sentence {
+    height: 100%;
+    font-size: var(--font-size-body);
+    margin-top: 16px;
+  }
+
+  .MuiInputBase-input {
+    padding: 4px 16px !important;
+    width: 100%;
+    font-size: var(--font-size-subtitle);
+    border-radius: var(--border-radius);
+    text-align: center;
+    border-width: 2px;
+    border-color: var(--color-dark);
+    border-right: none;
+  }
+
+  .MuiAutocomplete-root {
+    width: 90%;
+    margin-right: 16px;
+  }
+
+  .MuiInputBase-root {
+    padding: 0px;
+  }
+}
+
+@media (min-width: 320px) {
+  .main-container {
+    .row-sentence,
+    .row-expression {
+      padding: 0px 8px;
+    }
+
+    .row-expression {
+      margin-bottom: 16px;
+    }
+  }
+}

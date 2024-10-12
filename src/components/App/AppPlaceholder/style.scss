@@ -1,0 +1,10 @@
+.placeholder-container {
+  display: flex;
+  padding: var(--spacing-small);
+  background-color: var(--opacity-black-08);
+  justify-content: center;
+  align-items: center;
+  font-size: var(--font-size-xxlarge);
+  font-weight: var(--font-weight-large);
+  color: var(--color-primary-alternative);
+}

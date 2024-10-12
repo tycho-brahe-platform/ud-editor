@@ -1,0 +1,10 @@
+.loading-container {
+  height: 50vh;
+  margin-top: calc(var(--spacing-xxlarge) + var(--spacing-large));
+
+  .col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
