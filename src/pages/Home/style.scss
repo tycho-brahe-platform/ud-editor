@@ -1,57 +1,93 @@
-.main-container {
-  padding-top: var(--spacing-small);
-  margin-top: calc(var(--spacing-xxlarge) + var(--spacing-large));
+.home-container {
+  padding: 16px;
+  margin-top: 48px;
 
-  .buttons {
+  .sentence-container {
     display: flex;
-    margin-top: 16px;
-  }
 
-  #canvas {
-    width: 100%;
-    height: 85vh;
-    padding: 16px;
-    background-color: white;
-    border: 1px solid var(--opacity-black-32);
-    box-shadow: var(--shadow);
-  }
-
-  .sentence {
-    height: 100%;
-    font-size: var(--font-size-body);
-    margin-top: 16px;
-  }
-
-  .MuiInputBase-input {
-    padding: 4px 16px !important;
-    width: 100%;
-    font-size: var(--font-size-subtitle);
-    border-radius: var(--border-radius);
-    text-align: center;
-    border-width: 2px;
-    border-color: var(--color-dark);
-    border-right: none;
-  }
-
-  .MuiAutocomplete-root {
-    width: 90%;
-    margin-right: 16px;
-  }
-
-  .MuiInputBase-root {
-    padding: 0px;
-  }
-}
-
-@media (min-width: 320px) {
-  .main-container {
-    .row-sentence,
-    .row-expression {
-      padding: 0px 8px;
+    .sentence {
+      padding: 12px;
+      font-size: var(--font-size-regular);
+      line-height: 0.5;
     }
 
-    .row-expression {
-      margin-bottom: 16px;
+    .MuiInputBase-root {
+      background-color: var(--color-surface);
+    }
+
+    .MuiAutocomplete-root {
+      width: 40%;
+      margin: 0px 16px;
+    }
+
+    .MuiInputBase-root {
+      padding: 0px;
+    }
+
+    .MuiInputBase-input {
+      padding: 12px !important;
+      font-size: var(--font-size-regular);
+      border-radius: var(--border-radius);
+      border-width: 2px;
+      border-color: var(--color-dark);
+      border-right: none;
+    }
+  }
+
+  .conllu-container {
+    margin-top: 16px;
+
+    .card-header {
+      display: flex;
+      align-items: center;
+
+      .buttons {
+        margin-left: auto;
+      }
+    }
+
+    .card-body {
+      padding: 0px;
+
+      .expression {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: var(--font-size-body);
+        white-space: nowrap;
+        border: 0;
+      }
+    }
+  }
+
+  .ud-viewer-container {
+    margin-top: 16px;
+
+    .card-body {
+      padding: 0px;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      font-weight: var(--font-weight-large);
+      padding: 0px;
+
+      .nav-item {
+        padding: 8px;
+
+        a {
+          font-weight: var(--font-weight-large);
+          color: var(--color-dark);
+
+          &.active {
+            background-color: var(--color-button-hover);
+          }
+        }
+      }
+
+      .buttons {
+        margin-left: auto;
+        padding: 8px;
+      }
     }
   }
 }
