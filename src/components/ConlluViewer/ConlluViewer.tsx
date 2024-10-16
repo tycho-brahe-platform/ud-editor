@@ -1,6 +1,7 @@
 import { Conllu } from '@/types/model/Conllu';
-import { ReactElement, useEffect, useState } from 'react';
-import { OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
+import { saveAs } from 'file-saver';
+import { ReactElement, useEffect, useRef, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import ConlluViewerConverter, {
   calculateTextWidth,
@@ -15,6 +16,8 @@ import './style.scss';
 
 type Props = {
   conllu: Conllu;
+  generateImage: boolean;
+  setGenerateImage: (b: boolean) => void;
 };
 
 const svgID = 'canvas';
@@ -33,10 +36,60 @@ const EDGE_LBL_BACKGROUND = 'white';
 const EDGE_LBL_OPACITY = 0.9;
 const NODE_TWEEK = 2;
 
-export default function ConlluViewer({ conllu }: Props) {
+export default function ConlluViewer({
+  conllu,
+  generateImage,
+  setGenerateImage,
+}: Props) {
   const { t } = useTranslation('ud');
+  const svgRef = useRef<SVGSVGElement | null>(null);
   const [graph, setGraph] = useState<ConlluViewerGraph>();
   const [activeItem, setActiveItem] = useState<ConlluViewerItem>();
+
+  const handleGenerateImage = () => {
+    if (!generateImage) return;
+
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+
+    if (!context || !svgRef.current) {
+      throw new Error('Unable to get canvas context');
+    }
+
+    const { width, height } = svgRef.current.getBBox();
+    canvas.width = width;
+    canvas.height = height;
+
+    // Convert SVG element to data URL
+    const svgData = new XMLSerializer().serializeToString(svgRef.current);
+    const svgBlob = new Blob([svgData], {
+      type: 'image/svg+xml;charset=utf-8',
+    });
+    const url = URL.createObjectURL(svgBlob);
+
+    const img = new Image();
+    img.crossOrigin = 'anonymous'; // handle cross-origin issues
+
+    img.onload = async () => {
+      context.fillStyle = 'white';
+      context.fillRect(0, 0, width, height);
+      context.drawImage(img, 0, 0, width, height);
+      URL.revokeObjectURL(url);
+
+      // Convert canvas to JPEG blob
+      canvas.toBlob(
+        (blob) => {
+          if (blob === null) return;
+          saveAs(blob, 'conllu.jpg');
+        },
+        'image/jpeg',
+        1.0
+      );
+      setGenerateImage(false);
+    };
+
+    img.src = url;
+  };
 
   const calculateAnchor = (i1: number, i2: number, lvl: number) => {
     if (!graph) return 0;
@@ -417,10 +470,14 @@ export default function ConlluViewer({ conllu }: Props) {
     setGraph(new ConlluViewerConverter().execute(conllu));
   }, [conllu]);
 
+  useEffect(() => {
+    handleGenerateImage();
+  }, [generateImage]);
+
   return (
     <div className="conllu-viewer-container">
       {graph && (
-        <svg id={svgID} width={graph.width} height={graph.height}>
+        <svg ref={svgRef} id={svgID} width={graph.width} height={graph.height}>
           {drawDependencies()}
           {drawItems()}
           {drawMultis()}
