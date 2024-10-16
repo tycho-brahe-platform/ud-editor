@@ -10,28 +10,6 @@
       font-size: var(--font-size-regular);
       line-height: 0.5;
     }
-
-    .MuiInputBase-root {
-      background-color: var(--color-surface);
-    }
-
-    .MuiAutocomplete-root {
-      width: 40%;
-      margin: 0px 16px;
-    }
-
-    .MuiInputBase-root {
-      padding: 0px;
-    }
-
-    .MuiInputBase-input {
-      padding: 12px !important;
-      font-size: var(--font-size-regular);
-      border-radius: var(--border-radius);
-      border-width: 2px;
-      border-color: var(--color-dark);
-      border-right: none;
-    }
   }
 
   .conllu-container {

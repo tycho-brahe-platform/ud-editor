@@ -9,40 +9,48 @@ import nodeHtmlLabel from 'cytoscape-node-html-label';
 import './style.scss';
 import udstylesheet from './UDCytoscapeStylesheet';
 import SyntreesCytoscape from './SyntreesCytoscape';
+import html2canvas from 'html2canvas';
 
 nodeHtmlLabel(cytoscape);
 
 type Props = {
   conllu: Conllu;
-  expand: boolean;
-  setExpand: (b: boolean) => void;
   resetTree: boolean;
+  setResetTree: (b: boolean) => void;
+  generateImage: boolean;
+  setGenerateImage: (b: boolean) => void;
 };
 
 const selector = 'canvas-tree';
 
 export default function UDTreeView({
   conllu,
-  expand,
-  setExpand,
   resetTree,
+  setResetTree,
+  generateImage,
+  setGenerateImage,
 }: Props) {
   const { t } = useTranslation('ud');
   const [cy, setCy] = useState<any>();
 
-  const generateImage = () => {
-    if (cy) {
-      saveAs(cy.jpg({ full: true }), 'ud.jpg');
-    }
-  };
+  const handleGenerateImage = () => {
+    if (!cy || !generateImage) return;
 
-  const handleExpandTree = () => {
-    if (cy) {
-      setTimeout(() => {
-        cy.fit();
-        cy.center();
-      }, 200);
-    }
+    const cyContainer = cy.container();
+    html2canvas(cyContainer, {
+      backgroundColor: 'white',
+    }).then((canvas) => {
+      canvas.toBlob(
+        (blob) => {
+          if (blob === null) return;
+          saveAs(blob, 'ud.jpg');
+        },
+        'image/jpeg',
+        1.0
+      );
+
+      setGenerateImage(false);
+    });
   };
 
   const buildTemplateToken = (token: ConlluToken) => {
@@ -64,11 +72,12 @@ export default function UDTreeView({
   };
 
   const reset = () => {
-    if (cy) {
+    if (cy && resetTree) {
       setTimeout(() => {
         cy.fit();
         cy.center();
       }, 200);
+      setResetTree(false);
     }
   };
 
@@ -98,10 +107,6 @@ export default function UDTreeView({
   };
 
   useEffect(() => {
-    handleExpandTree();
-  }, [expand]);
-
-  useEffect(() => {
     render();
   }, [conllu]);
 
@@ -109,9 +114,13 @@ export default function UDTreeView({
     reset();
   }, [resetTree]);
 
+  useEffect(() => {
+    handleGenerateImage();
+  }, [generateImage]);
+
   return (
     <div className="ud-tree-container">
-      <div id={selector} className={`${expand ? 'expanded' : ''}`} />
+      <div id={selector} />
     </div>
   );
 }

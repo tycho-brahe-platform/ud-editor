@@ -16,12 +16,13 @@ import './style.scss';
 
 export default function Home() {
   const { t } = useTranslation('home');
+  const [generateImageTree, setGenerateImageTree] = useState(false);
+  const [generateImageConllu, setGenerateImageConllu] = useState(false);
   const [resetTree, setResetTree] = useState(false);
-  const [expand, setExpand] = useState(false);
-
   const [value, setValue] = useState('');
-  const [conllu, setConllu] = useState<Conllu>();
+  const [activeTab, setActiveTab] = useState('conllu-viewer');
 
+  const [conllu, setConllu] = useState<Conllu>();
   const [sentence, setSentence] = useState<string>('');
 
   const render = (data: string) => {
@@ -77,12 +78,17 @@ export default function Home() {
             <Tab.Container defaultActiveKey="conllu-viewer">
               <Card.Header>
                 <Nav>
-                  <Nav.Item>
+                  <Nav.Item onClick={() => setActiveTab('conllu-viewer')}>
                     <Nav.Link eventKey="conllu-viewer">
                       {t('conllu.viewer.title')}
                     </Nav.Link>
                   </Nav.Item>
-                  <Nav.Item onClick={() => setResetTree(true)}>
+                  <Nav.Item
+                    onClick={() => {
+                      setActiveTab('ud-tree');
+                      setResetTree(true);
+                    }}
+                  >
                     <Nav.Link eventKey="ud-tree">{t('ud.tree.title')}</Nav.Link>
                   </Nav.Item>
                 </Nav>
@@ -92,39 +98,42 @@ export default function Home() {
                     className="icon-button"
                     type="button"
                     title={t('button.download.tree')}
-                    // onClick={generateImage}
+                    onClick={() =>
+                      activeTab === 'ud-tree'
+                        ? setGenerateImageTree(true)
+                        : setGenerateImageConllu(true)
+                    }
                   >
                     <FontAwesomeIcon icon={faDownload} />
                   </button>
-                  <button
-                    className="icon-button d-none"
-                    type="button"
-                    title={t('button.expand.tree')}
-                    onClick={() => setExpand(!expand)}
-                  >
-                    <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
-                  </button>
-                  <button
-                    className="icon-button"
-                    type="button"
-                    title={t('button.recenter.tree')}
-                    // onClick={reset}
-                  >
-                    <FontAwesomeIcon icon={faExpand} />
-                  </button>
+                  {activeTab === 'ud-tree' && (
+                    <button
+                      className="icon-button"
+                      type="button"
+                      title={t('button.recenter.tree')}
+                      onClick={() => setResetTree(true)}
+                    >
+                      <FontAwesomeIcon icon={faExpand} />
+                    </button>
+                  )}
                 </div>
               </Card.Header>
               <Card.Body>
                 <Tab.Content>
                   <Tab.Pane eventKey="conllu-viewer">
-                    <ConlluViewer conllu={conllu} />
+                    <ConlluViewer
+                      conllu={conllu}
+                      generateImage={generateImageConllu}
+                      setGenerateImage={setGenerateImageConllu}
+                    />
                   </Tab.Pane>
                   <Tab.Pane eventKey="ud-tree">
                     <UDTreeView
                       conllu={conllu}
-                      expand={expand}
-                      setExpand={setExpand}
                       resetTree={resetTree}
+                      setResetTree={setResetTree}
+                      generateImage={generateImageTree}
+                      setGenerateImage={setGenerateImageTree}
                     />
                   </Tab.Pane>
                 </Tab.Content>
