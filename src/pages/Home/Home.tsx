@@ -13,6 +13,8 @@ import { useState } from 'react';
 import { Button, Card, Form, Nav, Tab } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import './style.scss';
+import UDSentenceValues from '@/components/UDSentenceValues';
+import UDSentenceTokens from '@/components/UDSentenceTokens';
 
 export default function Home() {
   const { t } = useTranslation('home');
@@ -72,6 +74,10 @@ export default function Home() {
             />
           </Card.Body>
         </Card>
+
+        <UDSentenceValues conllu={conllu} setConllu={setConllu} />
+
+        <UDSentenceTokens conllu={conllu} setConllu={setConllu} />
 
         {conllu && (
           <Card className="ud-viewer-container">

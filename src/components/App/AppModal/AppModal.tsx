@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import './style.scss';
-import { Spinner, Button, Modal } from 'react-bootstrap';
 import Conditional from '@/components/App/Conditional';
+import React from 'react';
+import { Button, Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import './style.scss';
 
-type Props = {
+type ContainerProps = {
   children: React.ReactNode;
   title: string;
   className?: string;
@@ -13,6 +13,12 @@ type Props = {
   open?: boolean;
   disableConfirm?: boolean;
   hideFooter?: boolean;
+  disableCancel?: boolean;
+  disableClose?: boolean;
+  confirmLabel?: string;
+  onShow?: () => void;
+  closeLabel?: string;
+  onEntered?: () => void;
 };
 
 function AppModal({
@@ -24,62 +30,51 @@ function AppModal({
   confirm,
   disableConfirm,
   hideFooter,
-}: Props) {
-  const { t } = useTranslation('audio');
-  const [loading, setLoading] = useState(false);
-
-  const handleConfirm = () => {
-    if (!loading) {
-      setLoading(true);
-      confirm && confirm();
-    }
-  };
-
-  const handleClose = () => {
-    setLoading(false);
-    close && close();
-  };
-
-  const attachCloseToEscape = () => {
-    const closeOnEscape = (e: any) => {
-      if (e.keyCode === 27) handleClose();
-    };
-
-    window.addEventListener('keydown', closeOnEscape);
-    return () => window.removeEventListener('keydown', closeOnEscape);
-  };
-
-  useEffect(() => {
-    setLoading(false);
-    attachCloseToEscape();
-  }, []);
-
+  disableClose,
+  disableCancel,
+  confirmLabel,
+  closeLabel,
+  onShow,
+  onEntered,
+}: ContainerProps) {
+  const { t } = useTranslation('header');
   return (
     <Conditional if={open}>
-      <Modal show centered dialogClassName={className}>
+      <Modal
+        show
+        centered
+        dialogClassName={className}
+        onShow={() => onShow && onShow()}
+        onEntered={() => onEntered && onEntered()}
+      >
         <Modal.Header>
           <Modal.Title className="text-center">{title}</Modal.Title>
-          <button
-            type="button"
-            className="btn-close btn-close-white"
-            aria-label="Close"
-            onClick={handleClose}
-          />
+          {!disableClose && (
+            <button
+              type="button"
+              className="btn-close btn-close-white"
+              aria-label="Close"
+              onClick={close}
+            />
+          )}
         </Modal.Header>
         <Modal.Body>{children}</Modal.Body>
         {!hideFooter ? (
           <Modal.Footer>
-            <Button variant="danger" onClick={handleClose}>
-              {t('message:modal.button.cancel')}
-            </Button>
-            <Button
-              variant="success"
-              onClick={handleConfirm}
-              disabled={disableConfirm}
-            >
-              {t('message:modal.button.confirm')}
-              {loading && <Spinner animation="border" size="sm" />}
-            </Button>
+            {!disableCancel && (
+              <Button variant="danger" onClick={close}>
+                {closeLabel || t('message:modal.button.cancel')}
+              </Button>
+            )}
+            {confirm && (
+              <Button
+                variant="success"
+                onClick={confirm}
+                disabled={disableConfirm}
+              >
+                {confirmLabel || t('message:modal.button.confirm')}
+              </Button>
+            )}
           </Modal.Footer>
         ) : null}
       </Modal>

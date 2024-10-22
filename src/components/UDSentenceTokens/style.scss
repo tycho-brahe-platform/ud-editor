@@ -1,0 +1,39 @@
+.table-ud-tokens {
+  .buttons svg {
+    width: 20px;
+    height: 20px;
+    margin-left: 8px;
+    cursor: pointer;
+  }
+}
+
+.popover-sentence-token {
+  min-width: 20vw;
+}
+
+.modal-conllu-token {
+  text-align: center;
+
+  .input {
+    line-height: 48px;
+    padding: 4px 16px;
+    font-size: var(--font-size-subtitle);
+    border-radius: var(--border-radius);
+  }
+
+  .input-name {
+    width: 80%;
+  }
+
+  .input-id {
+    width: 15%;
+    margin-left: 4px !important;
+    cursor: pointer;
+  }
+
+  .group {
+    display: flex;
+    justify-content: center;
+    margin: 24px 0px;
+  }
+}
