@@ -3,8 +3,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslation } from 'react-i18next';
 import HeaderLanguages from './HeaderLanguages';
 import './style.scss';
+import { Nav } from 'react-bootstrap';
 
-export default function Header() {
+type Props = {
+  activeTab: string;
+  setActiveTab: (s: string) => void;
+};
+
+export default function Header({ activeTab, setActiveTab }: Props) {
   const { t } = useTranslation('header');
 
   return (
@@ -15,6 +21,23 @@ export default function Header() {
           {t('label.platform')}: {t('label.tool')}
         </span>
       </div>
+
+      <Nav>
+        <Nav.Item onClick={() => setActiveTab('conllu-viewer')}>
+          <Nav.Link eventKey="conllu-viewer">
+            {t('conllu.viewer.title')}
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item
+          onClick={() => {
+            setActiveTab('ud-tree');
+            // setResetTree(true);
+          }}
+        >
+          <Nav.Link eventKey="ud-tree">{t('ud.tree.title')}</Nav.Link>
+        </Nav.Item>
+      </Nav>
+
       <div className="d-flex ms-auto">
         <HeaderLanguages />
       </div>

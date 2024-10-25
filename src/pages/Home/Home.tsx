@@ -1,20 +1,15 @@
 import ConlluViewer from '@/components/ConlluViewer';
 import Header from '@/components/Header';
+import UDSentenceTokens from '@/components/UDSentenceTokens';
 import UDTreeView from '@/components/UDTreeView';
 import ConlluUtils from '@/functions/ConlluUtils';
 import { Conllu } from '@/types/model/Conllu';
-import {
-  faDownload,
-  faExpand,
-  faUpRightAndDownLeftFromCenter,
-} from '@fortawesome/free-solid-svg-icons';
+import { faDownload, faExpand } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import { Button, Card, Form, Nav, Tab } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import './style.scss';
-import UDSentenceValues from '@/components/UDSentenceValues';
-import UDSentenceTokens from '@/components/UDSentenceTokens';
 
 export default function Home() {
   const { t } = useTranslation('home');
@@ -36,9 +31,9 @@ export default function Home() {
 
   return (
     <>
-      <Header />
+      <Header activeTab={activeTab} setActiveTab={setActiveTab} />
       <div className="home-container">
-        <div className="sentence-container">
+        <div className="sentence-container d-none">
           <Form.Control
             placeholder={t('placeholder.parse.sentence')}
             className="sentence"
@@ -74,8 +69,6 @@ export default function Home() {
             />
           </Card.Body>
         </Card>
-
-        <UDSentenceValues conllu={conllu} setConllu={setConllu} />
 
         <UDSentenceTokens conllu={conllu} setConllu={setConllu} />
 

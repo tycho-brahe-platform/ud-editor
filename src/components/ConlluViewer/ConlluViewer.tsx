@@ -440,7 +440,7 @@ export default function ConlluViewer({
         <tbody>
           <tr>
             <td>ID</td>
-            <td>{item.lineno}</td>
+            <td>{item.lineno + 1}</td>
           </tr>
           <tr>
             <td>Form</td>
