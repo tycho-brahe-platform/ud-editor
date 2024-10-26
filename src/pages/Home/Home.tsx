@@ -17,81 +17,111 @@ export default function Home() {
   const [generateImageConllu, setGenerateImageConllu] = useState(false);
   const [resetTree, setResetTree] = useState(false);
   const [value, setValue] = useState('');
-  const [activeTab, setActiveTab] = useState('conllu-viewer');
-
+  const [activeTab, setActiveTab] = useState('conllu');
   const [conllu, setConllu] = useState<Conllu>();
-  const [sentence, setSentence] = useState<string>('');
 
   const render = (data: string) => {
     if (!data) return;
     const conlluSentence = ConlluUtils.convertToSentence(data);
-    setSentence(conlluSentence.attributes.text);
     setConllu(conlluSentence);
   };
 
   return (
     <>
-      <Header activeTab={activeTab} setActiveTab={setActiveTab} />
+      <Header />
       <div className="home-container">
-        <div className="sentence-container d-none">
-          <Form.Control
-            placeholder={t('placeholder.parse.sentence')}
-            className="sentence"
-            value={sentence}
-            onChange={(e) => {
-              setSentence(e.target.value);
-            }}
-          />
-        </div>
-        <Card className="conllu-container">
-          <Card.Header>
-            <span>CoNLL-U</span>
-            <div className="buttons">
-              <Button
-                variant="success"
-                className="ms-auto"
-                onClick={() => render(value)}
-              >
-                <span>{t('button.label.render')}</span>
-              </Button>
-            </div>
-          </Card.Header>
-          <Card.Body>
-            <Form.Control
-              className="expression"
-              as="textarea"
-              placeholder={t('placeholder.render.conllu')}
-              value={value}
-              onChange={(e) => {
-                setValue(e.target.value);
-              }}
-              rows={15}
-            />
-          </Card.Body>
+        <Card className="ud-viewer-container">
+          <Tab.Container defaultActiveKey="conllu">
+            <Card.Header>
+              <Nav>
+                <Nav.Item onClick={() => setActiveTab('conllu')}>
+                  <Nav.Link eventKey="conllu">
+                    {t('conllu.viewer.title')}
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item onClick={() => setActiveTab('editor')}>
+                  <Nav.Link eventKey="editor">
+                    {t('conllu.editor.title')}
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item
+                  onClick={() => {
+                    setActiveTab('tree');
+                    setResetTree(true);
+                  }}
+                >
+                  <Nav.Link eventKey="ud-tree">{t('ud.tree.title')}</Nav.Link>
+                </Nav.Item>
+                <div className="buttons">
+                  <Button
+                    variant="success"
+                    className="ms-auto"
+                    onClick={() => render(value)}
+                  >
+                    <span>{t('button.label.render')}</span>
+                  </Button>
+                  <button
+                    className="icon-button"
+                    type="button"
+                    title={t('button.download.tree')}
+                    onClick={() =>
+                      activeTab === 'ud-tree'
+                        ? setGenerateImageTree(true)
+                        : setGenerateImageConllu(true)
+                    }
+                  >
+                    <FontAwesomeIcon icon={faDownload} />
+                  </button>
+                  {activeTab === 'tree' && (
+                    <button
+                      className="icon-button"
+                      type="button"
+                      title={t('button.recenter.tree')}
+                      onClick={() => setResetTree(true)}
+                    >
+                      <FontAwesomeIcon icon={faExpand} />
+                    </button>
+                  )}
+                </div>
+              </Nav>
+            </Card.Header>
+            <Card.Body>
+              <Tab.Content>
+                <Tab.Pane eventKey="conllu">
+                  <Form.Control
+                    className="expression"
+                    as="textarea"
+                    placeholder={t('placeholder.render.conllu')}
+                    value={value}
+                    onChange={(e) => {
+                      setValue(e.target.value);
+                    }}
+                    rows={15}
+                  />
+                </Tab.Pane>
+                <Tab.Pane eventKey="editor">
+                  <UDSentenceTokens conllu={conllu} setConllu={setConllu} />
+                </Tab.Pane>
+                <Tab.Pane eventKey="tree">
+                  {conllu && (
+                    <UDTreeView
+                      conllu={conllu}
+                      resetTree={resetTree}
+                      setResetTree={setResetTree}
+                      generateImage={generateImageTree}
+                      setGenerateImage={setGenerateImageTree}
+                    />
+                  )}
+                </Tab.Pane>
+              </Tab.Content>
+            </Card.Body>
+          </Tab.Container>
         </Card>
-
-        <UDSentenceTokens conllu={conllu} setConllu={setConllu} />
 
         {conllu && (
           <Card className="ud-viewer-container">
             <Tab.Container defaultActiveKey="conllu-viewer">
               <Card.Header>
-                <Nav>
-                  <Nav.Item onClick={() => setActiveTab('conllu-viewer')}>
-                    <Nav.Link eventKey="conllu-viewer">
-                      {t('conllu.viewer.title')}
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item
-                    onClick={() => {
-                      setActiveTab('ud-tree');
-                      setResetTree(true);
-                    }}
-                  >
-                    <Nav.Link eventKey="ud-tree">{t('ud.tree.title')}</Nav.Link>
-                  </Nav.Item>
-                </Nav>
-
                 <div className="buttons">
                   <button
                     className="icon-button"
@@ -124,15 +154,6 @@ export default function Home() {
                       conllu={conllu}
                       generateImage={generateImageConllu}
                       setGenerateImage={setGenerateImageConllu}
-                    />
-                  </Tab.Pane>
-                  <Tab.Pane eventKey="ud-tree">
-                    <UDTreeView
-                      conllu={conllu}
-                      resetTree={resetTree}
-                      setResetTree={setResetTree}
-                      generateImage={generateImageTree}
-                      setGenerateImage={setGenerateImageTree}
                     />
                   </Tab.Pane>
                 </Tab.Content>

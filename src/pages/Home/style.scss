@@ -2,6 +2,13 @@
   padding: 16px;
   margin-top: 28px;
 
+  .expression {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: var(--font-size-body);
+    white-space: nowrap;
+    border: 0;
+  }
+
   .sentence-container {
     display: flex;
 
@@ -26,13 +33,6 @@
 
     .card-body {
       padding: 0px;
-
-      .expression {
-        font-family: 'Courier New', Courier, monospace;
-        font-size: var(--font-size-body);
-        white-space: nowrap;
-        border: 0;
-      }
     }
   }
 
