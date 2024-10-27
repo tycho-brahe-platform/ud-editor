@@ -10,6 +10,12 @@ import './style.scss';
 import udstylesheet from './UDCytoscapeStylesheet';
 import SyntreesCytoscape from './SyntreesCytoscape';
 import html2canvas from 'html2canvas';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faDownload,
+  faExpand,
+  faTimes,
+} from '@fortawesome/free-solid-svg-icons';
 
 nodeHtmlLabel(cytoscape);
 
@@ -17,8 +23,7 @@ type Props = {
   conllu: Conllu;
   resetTree: boolean;
   setResetTree: (b: boolean) => void;
-  generateImage: boolean;
-  setGenerateImage: (b: boolean) => void;
+  setActiveTab: (s: string) => void;
 };
 
 const selector = 'canvas-tree';
@@ -27,14 +32,13 @@ export default function UDTreeView({
   conllu,
   resetTree,
   setResetTree,
-  generateImage,
-  setGenerateImage,
+  setActiveTab,
 }: Props) {
   const { t } = useTranslation('ud');
   const [cy, setCy] = useState<any>();
 
   const handleGenerateImage = () => {
-    if (!cy || !generateImage) return;
+    if (!cy) return;
 
     const cyContainer = cy.container();
     html2canvas(cyContainer, {
@@ -48,8 +52,6 @@ export default function UDTreeView({
         'image/jpeg',
         1.0
       );
-
-      setGenerateImage(false);
     });
   };
 
@@ -114,12 +116,36 @@ export default function UDTreeView({
     reset();
   }, [resetTree]);
 
-  useEffect(() => {
-    handleGenerateImage();
-  }, [generateImage]);
-
   return (
     <div className="ud-tree-container">
+      <button
+        className="floating-button"
+        type="button"
+        title={t('button.recenter.tree')}
+        onClick={() => setActiveTab('editor')}
+        style={{ right: '12px' }}
+      >
+        <FontAwesomeIcon icon={faTimes} />
+      </button>
+      <button
+        className="floating-button"
+        type="button"
+        title={t('button.recenter.tree')}
+        onClick={() => setResetTree(true)}
+        style={{ right: '56px' }}
+      >
+        <FontAwesomeIcon icon={faExpand} />
+      </button>
+      <button
+        className="floating-button"
+        type="button"
+        title={t('button.download.tree')}
+        onClick={handleGenerateImage}
+        style={{ right: '104px' }}
+      >
+        <FontAwesomeIcon icon={faDownload} />
+      </button>
+
       <div id={selector} />
     </div>
   );

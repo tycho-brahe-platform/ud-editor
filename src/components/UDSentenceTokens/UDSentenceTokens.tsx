@@ -136,7 +136,7 @@ export default function UDSentenceTokens({ conllu, setConllu }: Props) {
             onEntered={() => input.current?.focus()}
             rootClose
           >
-            <Popover className="popover-value popover-sentence-token">
+            <Popover className="popover-token">
               <Popover.Body>
                 {attribute !== 'upos' ? (
                   <input
