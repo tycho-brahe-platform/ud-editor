@@ -44,12 +44,10 @@ export default function UDSentenceTokens({ conllu, setConllu }: Props) {
     if (!conllu || !token) return;
 
     const thisToken = { ...token, [attribute]: value };
-    // UDService.saveToken(conllu.uid, thisToken).then(() => {
-    //   const tokens = conllu.tokens;
-    //   const idx = tokens.findIndex((obj) => obj.id === thisToken.id);
-    //   tokens[idx] = thisToken;
-    //   setConllu({ ...conllu, tokens });
-    // });
+    const tokens = conllu.tokens;
+    const idx = tokens.findIndex((obj) => obj.id === thisToken.id);
+    tokens[idx] = thisToken;
+    setConllu({ ...conllu, tokens });
 
     setTarget(null);
     setValue(undefined);

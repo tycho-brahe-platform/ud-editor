@@ -88,6 +88,31 @@ const convertToSentence = (conllText: string): Conllu => {
   return conllu;
 };
 
+const convertToConllu = (conllu: Conllu): string => {
+  const attributesLines = Object.entries(conllu.attributes)
+    .map(([key, value]) => `# ${key} = ${value}`)
+    .join('\n');
+
+  const tokenLines = conllu.tokens
+    .map((token) =>
+      [
+        token.id,
+        token.form,
+        token.lemma,
+        token.upos,
+        token.xpos,
+        token.feats,
+        token.head,
+        token.deprel,
+        token.deps === '' ? '_' : token.deps,
+        token.misc,
+      ].join('\t')
+    )
+    .join('\n');
+
+  return [attributesLines, tokenLines].join('\n');
+};
+
 const uuid = () =>
   'xxxxxxxx'.replace(/[xy]/g, (c) => {
     /* eslint-disable */
@@ -100,6 +125,7 @@ const uuid = () =>
 const ConlluUtils = {
   convertToSentence,
   convertToCytoscape,
+  convertToConllu,
 };
 
 export default ConlluUtils;

@@ -13,11 +13,11 @@ import {
   ConlluViewerItem,
 } from './ConlluViewerGraph';
 import './style.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDownload } from '@fortawesome/free-solid-svg-icons';
 
 type Props = {
   conllu: Conllu;
-  generateImage: boolean;
-  setGenerateImage: (b: boolean) => void;
 };
 
 const svgID = 'canvas';
@@ -36,19 +36,13 @@ const EDGE_LBL_BACKGROUND = 'white';
 const EDGE_LBL_OPACITY = 0.9;
 const NODE_TWEEK = 2;
 
-export default function ConlluViewer({
-  conllu,
-  generateImage,
-  setGenerateImage,
-}: Props) {
+export default function ConlluViewer({ conllu }: Props) {
   const { t } = useTranslation('ud');
   const svgRef = useRef<SVGSVGElement | null>(null);
   const [graph, setGraph] = useState<ConlluViewerGraph>();
   const [activeItem, setActiveItem] = useState<ConlluViewerItem>();
 
   const handleGenerateImage = () => {
-    if (!generateImage) return;
-
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
 
@@ -85,7 +79,6 @@ export default function ConlluViewer({
         'image/jpeg',
         1.0
       );
-      setGenerateImage(false);
     };
 
     img.src = url;
@@ -470,12 +463,20 @@ export default function ConlluViewer({
     setGraph(new ConlluViewerConverter().execute(conllu));
   }, [conllu]);
 
-  useEffect(() => {
-    handleGenerateImage();
-  }, [generateImage]);
-
   return (
     <div className="conllu-viewer-container">
+      <div className="buttons">
+        <button
+          className="floating-button"
+          type="button"
+          title={t('button.download.tree')}
+          onClick={handleGenerateImage}
+          style={{ left: '12px' }}
+        >
+          <FontAwesomeIcon icon={faDownload} />
+        </button>
+      </div>
+
       {graph && (
         <svg ref={svgRef} id={svgID} width={graph.width} height={graph.height}>
           {drawDependencies()}
