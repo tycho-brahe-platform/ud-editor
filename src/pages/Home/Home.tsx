@@ -19,6 +19,7 @@ export default function Home() {
     if (!data) return;
     const conlluSentence = ConlluUtils.convertToSentence(data);
     setConllu(conlluSentence);
+    setActiveTab('graphical');
   };
 
   useEffect(() => {
@@ -37,66 +38,68 @@ export default function Home() {
 
   return (
     <div className="home-container">
-      <div className="ud-sentence-container">
-        <Tab.Container defaultActiveKey="conllu">
-          <Nav>
-            <Nav.Item onClick={() => setActiveTab('conllu')}>
-              <Nav.Link eventKey="conllu">{t('conllu.viewer.title')}</Nav.Link>
-            </Nav.Item>
-            <Nav.Item onClick={() => setActiveTab('editor')}>
-              <Nav.Link eventKey="editor">{t('conllu.editor.title')}</Nav.Link>
-            </Nav.Item>
-            <Nav.Item
-              onClick={() => {
-                setActiveTab('tree');
-                setResetTree(true);
-              }}
+      <Tab.Container
+        activeKey={activeTab}
+        onSelect={(k) => k && setActiveTab(k)}
+      >
+        <Nav>
+          <Nav.Item onClick={() => setActiveTab('conllu')}>
+            <Nav.Link eventKey="conllu">{t('conllu.viewer.title')}</Nav.Link>
+          </Nav.Item>
+          <Nav.Item onClick={() => setActiveTab('graphical')}>
+            <Nav.Link eventKey="graphical">
+              {t('conllu.graphical.title')}
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item onClick={() => setActiveTab('editor')}>
+            <Nav.Link eventKey="editor">{t('conllu.editor.title')}</Nav.Link>
+          </Nav.Item>
+          <Nav.Item
+            onClick={() => {
+              setActiveTab('tree');
+              setResetTree(true);
+            }}
+          >
+            <Nav.Link eventKey="ud-tree">{t('ud.tree.title')}</Nav.Link>
+          </Nav.Item>
+          <div className="buttons">
+            <Button
+              variant="success"
+              className="ms-auto"
+              size="sm"
+              onClick={() => render(value)}
             >
-              <Nav.Link eventKey="ud-tree">{t('ud.tree.title')}</Nav.Link>
-            </Nav.Item>
-            <div className="buttons">
-              <Button
-                variant="success"
-                className="ms-auto"
-                size="sm"
-                onClick={() => render(value)}
-              >
-                <span>{t('button.label.render')}</span>
-              </Button>
-            </div>
-          </Nav>
-          <Card.Body>
-            <Tab.Content>
-              <Tab.Pane eventKey="conllu">
-                <Form.Control
-                  className="expression"
-                  as="textarea"
-                  placeholder={t('placeholder.render.conllu')}
-                  value={value}
-                  onChange={(e) => {
-                    setValue(e.target.value);
-                  }}
-                />
-              </Tab.Pane>
-              <Tab.Pane eventKey="editor">
-                <UDSentenceTokens conllu={conllu} setConllu={setConllu} />
-              </Tab.Pane>
-            </Tab.Content>
-          </Card.Body>
-        </Tab.Container>
-      </div>
-
-      {conllu && (
-        <div className="ud-viewer-container">
-          <Tab.Container defaultActiveKey="conllu-viewer">
-            <Tab.Content>
-              <Tab.Pane eventKey="conllu-viewer">
-                <ConlluViewer conllu={conllu} />
-              </Tab.Pane>
-            </Tab.Content>
-          </Tab.Container>
-        </div>
-      )}
+              <span>{t('button.label.render')}</span>
+            </Button>
+          </div>
+        </Nav>
+        <Tab.Content>
+          <Tab.Pane eventKey="conllu">
+            <Form.Control
+              className="expression"
+              as="textarea"
+              placeholder={t('placeholder.render.conllu')}
+              value={value}
+              onChange={(e) => {
+                setValue(e.target.value);
+              }}
+            />
+          </Tab.Pane>
+          <Tab.Pane eventKey="editor">
+            <UDSentenceTokens conllu={conllu} setConllu={setConllu} />
+          </Tab.Pane>
+          <Tab.Pane eventKey="graphical">
+            {conllu && (
+              <ConlluViewer
+                conllu={conllu}
+                onDependencyChange={(updatedConllu) => {
+                  setConllu(updatedConllu);
+                }}
+              />
+            )}
+          </Tab.Pane>
+        </Tab.Content>
+      </Tab.Container>
     </div>
   );
 }

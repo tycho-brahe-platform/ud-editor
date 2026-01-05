@@ -36,33 +36,29 @@
     }
   }
 
-  .ud-sentence-container {
-    margin-top: 16px;
+  .card-body {
+    padding: 0px;
+  }
 
-    .card-body {
-      padding: 0px;
-    }
+  .nav {
+    display: flex;
+    align-items: center;
+    font-weight: var(--font-weight-large);
+    padding-left: 8px;
 
-    .nav {
-      display: flex;
-      align-items: center;
-      font-weight: var(--font-weight-large);
-      padding-left: 8px;
+    .nav-item {
+      a {
+        font-weight: var(--font-weight-large);
+        color: var(--color-dark);
 
-      .nav-item {
-        a {
-          font-weight: var(--font-weight-large);
-          color: var(--color-dark);
-
-          &.active {
-            background-color: var(--color-button-hover);
-          }
+        &.active {
+          background-color: var(--color-button-hover);
         }
       }
+    }
 
-      .buttons {
-        margin: 0px 8px 0px auto;
-      }
+    .buttons {
+      margin: 0px 8px 0px auto;
     }
   }
 

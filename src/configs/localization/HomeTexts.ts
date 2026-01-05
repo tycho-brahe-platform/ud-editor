@@ -9,6 +9,7 @@ export const HomeTexts = {
     'ud.tree.title': 'Universal Dependencies Tree',
     'conllu.viewer.title': 'CoNLL-U Viewer',
     'conllu.editor.title': 'CoNLL-U Editor',
+    'conllu.graphical.title': 'Graphical Viewer',
   },
   'pt-BR': {
     'button.label.export': 'Exportar',
@@ -19,5 +20,6 @@ export const HomeTexts = {
     'ud.tree.title': 'Árvores de Dependências Universais',
     'conllu.viewer.title': 'Visualizador CoNLL-U',
     'conllu.editor.title': 'Editor CoNLL-U',
+    'conllu.graphical.title': 'Visualizador Gráfico',
   },
 };

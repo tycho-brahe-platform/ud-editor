@@ -1,0 +1,17 @@
+export const viewerConfigurations = {
+  svgID: 'canvas',
+  font: 'FreeSans, Arial, Helvetica, sans-serif',
+  margin: 4,
+  nodeFontSize: 16,
+  edgeFontSize: 16,
+  edgeFontOffset: 8,
+  lvlHeight: 40,
+  nodeHeight: 48,
+  multiSkip: 4,
+  multiHeight: 28,
+  edgeFontWhiteMargin: 2,
+  edgeDrop: 80,
+  edgeLblBackground: 'white',
+  edgeLblOpacity: 0.9,
+  nodeTweek: 2,
+} as const;
