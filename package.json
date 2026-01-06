@@ -6,11 +6,7 @@
   "scripts": {
     "start": "vite",
     "start-local": "vite --open --mode localhost",
-    "build": "tsc && vite build",
-    "build-aws": "tsc && vite build --mode localhost",
-    "ci-build": "tsc && vite build --mode development",
-    "test": "vitest",
-    "ci-test": "vitest run",
+    "build": "tsc && vite build --mode localhost",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -40,7 +36,6 @@
     "@types/node": "^20.4.4",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
-    "@types/react-select": "^5.0.1",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.61.0",
     "@vitejs/plugin-react": "^4.0.1",
