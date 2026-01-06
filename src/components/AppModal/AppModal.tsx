@@ -1,7 +1,7 @@
+import { useEffect } from 'react';
 import { Box, Button, Fade, Modal } from '@mui/material';
-import cx from 'classnames';
 import { useTranslation } from 'react-i18next';
-import Icon from '../Icon';
+import Icon from '../AppIcon';
 import './style.scss';
 
 type Props = {
@@ -15,10 +15,18 @@ type Props = {
   onEntered?: () => void;
 };
 
+const attachCloseToEscape = (handleClose: () => void) => {
+  const closeOnEscape = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') handleClose();
+  };
+
+  window.addEventListener('keydown', closeOnEscape);
+  return () => window.removeEventListener('keydown', closeOnEscape);
+};
+
 export default function AppModal({
   children,
   title,
-  subtitle,
   className,
   close,
   confirm,
@@ -26,7 +34,13 @@ export default function AppModal({
 }: Props) {
   const { t } = useTranslation('app');
 
-  const getClassNames = cx('modal-container', className);
+  useEffect(() => {
+    return attachCloseToEscape(close);
+  }, [close]);
+
+  const getClassNames = className
+    ? `modal-container ${className}`
+    : 'modal-container';
 
   return (
     <Modal open disableEnforceFocus disableAutoFocus disableRestoreFocus>

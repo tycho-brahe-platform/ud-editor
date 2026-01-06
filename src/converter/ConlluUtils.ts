@@ -1,6 +1,10 @@
-import { Conllu, ConlluToken } from '@/types/model/Conllu';
-import { CytoscapeTree } from '@/types/model/Tree';
+import { Conllu, ConlluToken } from '@/types/Conllu';
+import { CytoscapeTree } from '@/types/Tree';
 import { EdgeDefinition, NodeDefinition } from 'cytoscape';
+
+const isNotEmptyConllu = (conllu: Conllu): boolean => {
+  return conllu && conllu.tokens.length > 0;
+};
 
 const convertToCytoscape = (sentence: Conllu): CytoscapeTree => {
   const nodes: NodeDefinition[] = [];
@@ -89,6 +93,8 @@ const convertToSentence = (conllText: string): Conllu => {
 };
 
 const convertToConllu = (conllu: Conllu): string => {
+  if (!isNotEmptyConllu(conllu)) return '';
+
   const attributesLines = Object.entries(conllu.attributes)
     .map(([key, value]) => `# ${key} = ${value}`)
     .join('\n');
@@ -126,6 +132,7 @@ const ConlluUtils = {
   convertToSentence,
   convertToCytoscape,
   convertToConllu,
+  isNotEmptyConllu,
 };
 
 export default ConlluUtils;

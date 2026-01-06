@@ -2,31 +2,52 @@ import ConlluEditor from '@/components/ConlluEditor';
 import ConlluViewer from '@/components/ConlluViewer/ConlluViewer';
 import Settings from '@/components/Settings';
 import TreeView from '@/components/TreeView';
+import AuthContext from '@/configs/AuthContext';
+import { conllu } from '@/configs/store/actions';
 import ConlluUtils from '@/converter/ConlluUtils';
-import { Conllu } from '@/types/model/Conllu';
 import { Button, Tab, Tabs } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import './style.scss';
 
 export default function Home() {
   const { t } = useTranslation('app');
+  const { state, dispatch } = useContext(AuthContext);
+
   const [resetTree, setResetTree] = useState(false);
   const [value, setValue] = useState('');
   const [activeTab, setActiveTab] = useState('conllu');
-  const [conllu, setConllu] = useState<Conllu>();
   const [openSettings, setOpenSettings] = useState(false);
 
   const render = (data: string) => {
     if (!data) return;
     const conlluSentence = ConlluUtils.convertToSentence(data);
-    setConllu(conlluSentence);
+    dispatch(conllu(conlluSentence));
     setActiveTab('graphical');
   };
 
   useEffect(() => {
-    conllu && setValue(ConlluUtils.convertToConllu(conllu));
-  }, [conllu]);
+    state.conllu && setValue(ConlluUtils.convertToConllu(state.conllu));
+  }, [state.conllu]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey && event.key === 'Enter') {
+        event.preventDefault();
+        render(value);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [value]);
+
+  const isNotEmptyConllu = useMemo(
+    () => ConlluUtils.isNotEmptyConllu(state.conllu),
+    [state.conllu]
+  );
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
     if (newValue === 'tree') {
@@ -58,19 +79,19 @@ export default function Home() {
             label={t('tab.label.graphical')}
             value="graphical"
             className="nav-item"
-            disabled={!conllu}
+            disabled={!isNotEmptyConllu}
           />
           <Tab
             label={t('tab.label.viewer')}
             value="editor"
             className="nav-item"
-            disabled={!conllu}
+            disabled={!isNotEmptyConllu}
           />
           <Tab
             label={t('tab.label.tree')}
             value="tree"
             className="nav-item"
-            disabled={!conllu}
+            disabled={!isNotEmptyConllu}
           />
         </Tabs>
         <Button
@@ -103,28 +124,19 @@ export default function Home() {
             </div>
           </div>
         )}
-        {activeTab === 'editor' && conllu && (
+        {activeTab === 'editor' && isNotEmptyConllu && (
           <div className="tabpanel" role="tabpanel">
-            <ConlluViewer conllu={conllu} setConllu={setConllu} />
+            <ConlluViewer />
           </div>
         )}
-        {activeTab === 'graphical' && conllu && (
+        {activeTab === 'graphical' && isNotEmptyConllu && (
           <div className="tabpanel" role="tabpanel">
-            <ConlluEditor
-              conllu={conllu}
-              onDependencyChange={(updatedConllu) => {
-                setConllu(updatedConllu);
-              }}
-            />
+            <ConlluEditor />
           </div>
         )}
-        {activeTab === 'tree' && conllu && (
+        {activeTab === 'tree' && isNotEmptyConllu && (
           <div className="tabpanel" role="tabpanel">
-            <TreeView
-              conllu={conllu}
-              resetTree={resetTree}
-              setResetTree={setResetTree}
-            />
+            <TreeView resetTree={resetTree} setResetTree={setResetTree} />
           </div>
         )}
       </div>

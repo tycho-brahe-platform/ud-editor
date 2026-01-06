@@ -16,7 +16,12 @@ export type Conllu = {
   attributes: Record<string, string>;
 };
 
-export const CONLLU_ATTRS: (keyof ConlluToken)[] = [
+export const EMPTY_CONLLU: Conllu = {
+  tokens: [],
+  attributes: {},
+};
+
+export const conlluAttributes: (keyof ConlluToken)[] = [
   'id',
   'form',
   'lemma',

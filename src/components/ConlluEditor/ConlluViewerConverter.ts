@@ -1,4 +1,4 @@
-import { Conllu, ConlluToken } from '@/types/model/Conllu';
+import { Conllu, ConlluToken } from '@/types/Conllu';
 import {
   ConlluViewerAnchor,
   ConlluViewerDependency,

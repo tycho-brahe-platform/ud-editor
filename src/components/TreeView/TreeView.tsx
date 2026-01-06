@@ -1,7 +1,7 @@
-import { Conllu, ConlluToken } from '@/types/model/Conllu';
+import { Conllu, ConlluToken } from '@/types/Conllu';
 import cytoscape from 'cytoscape';
 import { saveAs } from 'file-saver';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 // @ts-ignore
 import nodeHtmlLabel from 'cytoscape-node-html-label';
@@ -10,21 +10,22 @@ import udstylesheet from './UDCytoscapeStylesheet';
 import SyntreesCytoscape from './SyntreesCytoscape';
 import html2canvas from 'html2canvas';
 import ConlluUtils from '@/converter/ConlluUtils';
-import Icon from '../App/Icon';
+import Icon from '../AppIcon';
+import AuthContext from '@/configs/AuthContext';
 
 nodeHtmlLabel(cytoscape);
 
 type Props = {
-  conllu: Conllu;
   resetTree: boolean;
   setResetTree: (b: boolean) => void;
 };
 
 const selector = 'canvas-tree';
 
-export default function TreeView({ conllu, resetTree, setResetTree }: Props) {
-  const { t } = useTranslation('ud');
+export default function TreeView({ resetTree, setResetTree }: Props) {
+  const { t } = useTranslation('app');
   const [cy, setCy] = useState<any>();
+  const { state } = useContext(AuthContext);
 
   const handleGenerateImage = () => {
     if (!cy) return;
@@ -73,7 +74,7 @@ export default function TreeView({ conllu, resetTree, setResetTree }: Props) {
   };
 
   const render = () => {
-    const tree = ConlluUtils.convertToCytoscape(conllu);
+    const tree = ConlluUtils.convertToCytoscape(state.conllu);
     if (!tree) {
       const el = document.getElementById(selector);
       if (el) el.innerHTML = '<label>sentence not parsed</label>';
@@ -99,32 +100,30 @@ export default function TreeView({ conllu, resetTree, setResetTree }: Props) {
 
   useEffect(() => {
     render();
-  }, [conllu]);
+  }, [state.conllu]);
 
   useEffect(() => {
     reset();
   }, [resetTree]);
 
   return (
-    <div className="ud-tree-container">
-      <button
-        className="floating-button"
-        type="button"
-        title={t('button.recenter.tree')}
-        onClick={() => setResetTree(true)}
-        style={{ right: '12px' }}
-      >
-        <Icon name="expand" size="small" />
-      </button>
-      <button
-        className="floating-button"
-        type="button"
-        title={t('button.download.tree')}
-        onClick={handleGenerateImage}
-        style={{ right: '56px' }}
-      >
-        <Icon name="download" size="small" />
-      </button>
+    <div className="tree-container">
+      <div className="floating-buttons">
+        <button
+          type="button"
+          title={t('button.tooltip.recenter')}
+          onClick={() => setResetTree(true)}
+        >
+          <Icon name="center_focus_weak" />
+        </button>
+        <button
+          type="button"
+          title={t('button.tooltip.download')}
+          onClick={handleGenerateImage}
+        >
+          <Icon name="download" />
+        </button>
+      </div>
 
       <div id={selector} />
     </div>

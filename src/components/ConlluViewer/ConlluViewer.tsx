@@ -1,86 +1,87 @@
-import { Conllu, CONLLU_ATTRS, ConlluToken } from '@/types/model/Conllu';
-import { useRef, useState } from 'react';
+import AuthContext from '@/configs/AuthContext';
+import { conllu } from '@/configs/store/actions';
+import { ConlluToken, conlluAttributes } from '@/types/Conllu';
+import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import TokenDetails from '../TokenDetails';
 import './style.scss';
 
-type Props = {
-  conllu: Conllu;
-  setConllu: (s: Conllu) => void;
-};
+export default function ConlluViewer() {
+  const { t } = useTranslation('app');
+  const { state, dispatch } = useContext(AuthContext);
 
-export default function ConlluViewer({ conllu, setConllu }: Props) {
-  const { t } = useTranslation(['ud', 'header']);
-  const [target, setTarget] = useState<HTMLElement | null>(null);
-  const targets = useRef<Record<string, HTMLElement | null>>({});
-  const [attribute, setAttribute] = useState('');
-  const [token, setToken] = useState<ConlluToken>();
-  const [value, setValue] = useState<string>();
-
+  const [token, setToken] = useState<ConlluToken | null>(null);
+  const [selectedTokenIndex, setSelectedTokenIndex] = useState<number>(-1);
   const [openEdit, setOpenEdit] = useState(false);
-  const [openAdd, setOpenAdd] = useState(false);
-
-  const handleClick = (token: ConlluToken, attr: string, idx: string) => {
-    if (attr === 'id') return;
-    document.body.click();
-    setTarget(targets.current[idx]);
-    setToken(token);
-    setValue(getTokenValue(token, attr));
-    setAttribute(attr);
-  };
 
   const getTokenValue = (token: ConlluToken, key: string) => {
     const value = token[key.toLowerCase() as keyof ConlluToken];
     return value !== '_' ? value : undefined;
   };
 
-  const handleRowClick = (token: ConlluToken) => {
+  const handleRowClick = (token: ConlluToken, index: number) => {
     setToken(token);
+    setSelectedTokenIndex(index);
     setOpenEdit(true);
   };
 
+  const handleCloseTokenModal = () => {
+    setOpenEdit(false);
+    setToken(null);
+    setSelectedTokenIndex(-1);
+  };
+
+  const handleTokenChange = (updatedToken: ConlluToken) => {
+    if (
+      selectedTokenIndex >= 0 &&
+      selectedTokenIndex < state.conllu.tokens.length
+    ) {
+      const updatedTokens = [...state.conllu.tokens];
+      updatedTokens[selectedTokenIndex] = updatedToken;
+      const updatedConllu = { ...state.conllu, tokens: updatedTokens };
+      dispatch(conllu(updatedConllu));
+      setToken(updatedToken);
+    }
+  };
+
   return (
-    <table className="table-conllu-viewer">
-      <thead>
-        <tr>
-          {CONLLU_ATTRS.map((key, idx) => (
-            <th key={idx.valueOf()}>{key.toUpperCase()}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {conllu &&
-          conllu.tokens &&
-          conllu.tokens.map((token, idx) => (
+    <>
+      <table className="table-conllu-viewer">
+        <thead>
+          <tr>
+            {conlluAttributes.map((key, idx) => (
+              <th key={idx.valueOf()}>{key.toUpperCase()}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {state.conllu.tokens.map((token, idx) => (
             <tr
               key={idx.valueOf()}
-              onClick={() => handleRowClick(token)}
+              onClick={() => handleRowClick(token, idx)}
               className="table-row"
             >
-              {CONLLU_ATTRS.map((key, idy) => (
+              {conlluAttributes.map((key, idy) => (
                 <td key={`${idx.valueOf()}_${idy.valueOf()}`}>
-                  <span
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleClick(
-                        token,
-                        key,
-                        `${idx.valueOf()}_${idy.valueOf()}`
-                      );
-                    }}
-                    ref={(ref) => {
-                      targets.current[`${idx.valueOf()}_${idy.valueOf()}`] =
-                        ref;
-                    }}
-                  >
+                  <span>
                     {getTokenValue(token, key)
                       ? getTokenValue(token, key)
-                      : 'empty'}
+                      : t('label.empty')}
                   </span>
                 </td>
               ))}
             </tr>
           ))}
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+      {openEdit && token && (
+        <TokenDetails
+          token={token}
+          tokenIndex={selectedTokenIndex}
+          onClose={handleCloseTokenModal}
+          onTokenChange={handleTokenChange}
+        />
+      )}
+    </>
   );
 }

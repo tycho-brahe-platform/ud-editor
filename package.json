@@ -19,7 +19,6 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^7.2.0",
     "@mui/material": "^7.2.0",
-    "classnames": "^2.5.1",
     "cytoscape": "^3.22.1",
     "cytoscape-dagre": "^2.5.0",
     "cytoscape-node-html-label": "^1.2.2",

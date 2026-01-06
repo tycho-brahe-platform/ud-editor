@@ -1,4 +1,4 @@
-import { CytoscapeTree } from '@/types/model/Tree';
+import { CytoscapeTree } from '@/types/Tree';
 import cytoscape, { Core, Stylesheet } from 'cytoscape';
 import dagre from 'cytoscape-dagre';
 

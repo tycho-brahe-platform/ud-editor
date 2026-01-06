@@ -1,7 +1,9 @@
-import { Conllu, ConlluToken } from '@/types/model/Conllu';
-import { useEffect, useRef, useState } from 'react';
+import AuthContext from '@/configs/AuthContext';
+import { conllu } from '@/configs/store/actions';
+import { Conllu, ConlluToken } from '@/types/Conllu';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Icon from '../App/Icon';
+import Icon from '../AppIcon';
 import TokenDetails from '../TokenDetails';
 import { viewerConfigurations } from './ConlluViewerConstants';
 import ConlluViewerConverter from './ConlluViewerConverter';
@@ -14,13 +16,10 @@ import {
 } from './ConlluViewerRenderer';
 import './style.scss';
 
-type Props = {
-  conllu: Conllu;
-  onDependencyChange?: (updatedConllu: Conllu) => void;
-};
+export default function ConlluEditor() {
+  const { t } = useTranslation('app');
+  const { state, dispatch } = useContext(AuthContext);
 
-export default function ConlluEditor({ conllu, onDependencyChange }: Props) {
-  const { t } = useTranslation('ud');
   const svgRef = useRef<SVGSVGElement | null>(null);
   const [graph, setGraph] = useState<ConlluViewerGraph>();
   const [activeItem, setActiveItem] = useState<ConlluViewerItem>();
@@ -30,19 +29,36 @@ export default function ConlluEditor({ conllu, onDependencyChange }: Props) {
   } | null>(null);
   const [dragOverItem, setDragOverItem] = useState<number | null>(null);
   const [selectedToken, setSelectedToken] = useState<ConlluToken | null>(null);
-  const [isTokenModalOpen, setIsTokenModalOpen] = useState(false);
+  const [openToken, setOpenToken] = useState(false);
+
+  const [selectedTokenIndex, setSelectedTokenIndex] = useState<number>(-1);
 
   const handleTokenClick = (item: ConlluViewerItem) => {
-    const token = conllu.tokens[item.lineno];
+    const token = state.conllu.tokens[item.lineno];
     if (token) {
       setSelectedToken(token);
-      setIsTokenModalOpen(true);
+      setSelectedTokenIndex(item.lineno);
+      setOpenToken(true);
     }
   };
 
   const handleCloseTokenModal = () => {
-    setIsTokenModalOpen(false);
+    setOpenToken(false);
     setSelectedToken(null);
+    setSelectedTokenIndex(-1);
+  };
+
+  const handleTokenChange = (updatedToken: ConlluToken) => {
+    if (
+      selectedTokenIndex >= 0 &&
+      selectedTokenIndex < state.conllu.tokens.length
+    ) {
+      const updatedTokens = [...state.conllu.tokens];
+      updatedTokens[selectedTokenIndex] = updatedToken;
+      const updatedConllu = { ...state.conllu, tokens: updatedTokens };
+      dispatch(conllu(updatedConllu));
+      setSelectedToken(updatedToken);
+    }
   };
 
   const handleGenerateImage = () => {
@@ -53,8 +69,8 @@ export default function ConlluEditor({ conllu, onDependencyChange }: Props) {
   };
 
   useEffect(() => {
-    setGraph(new ConlluViewerConverter().execute(conllu));
-  }, [conllu]);
+    setGraph(new ConlluViewerConverter().execute(state.conllu));
+  }, [state.conllu]);
 
   if (!graph) {
     return null;
@@ -64,8 +80,10 @@ export default function ConlluEditor({ conllu, onDependencyChange }: Props) {
     graph,
     activeItem,
     setActiveItem,
-    onDependencyChange,
-    conllu,
+    onDependencyChange: (updatedConllu: Conllu) => {
+      dispatch(conllu(updatedConllu));
+    },
+    conllu: state.conllu,
     draggedDep,
     setDraggedDep,
     dragOverItem,
@@ -74,14 +92,12 @@ export default function ConlluEditor({ conllu, onDependencyChange }: Props) {
   };
 
   return (
-    <div className="conllu-viewer-container">
-      <div className="buttons">
+    <div className="conllu-editor-container">
+      <div className="floating-buttons">
         <button
-          className="floating-button"
           type="button"
-          title={t('button.download.tree')}
+          title={t('button.tooltip.download')}
           onClick={handleGenerateImage}
-          style={{ left: '12px' }}
         >
           <Icon name="download" />
         </button>
@@ -99,12 +115,14 @@ export default function ConlluEditor({ conllu, onDependencyChange }: Props) {
         {drawItems(rendererProps)}
         {drawMultis(rendererProps)}
       </svg>
-
-      <TokenDetails
-        token={selectedToken}
-        open={isTokenModalOpen}
-        onClose={handleCloseTokenModal}
-      />
+      {openToken && selectedToken && (
+        <TokenDetails
+          token={selectedToken}
+          tokenIndex={selectedTokenIndex}
+          onClose={handleCloseTokenModal}
+          onTokenChange={handleTokenChange}
+        />
+      )}
     </div>
   );
 }

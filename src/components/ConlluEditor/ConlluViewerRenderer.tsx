@@ -1,4 +1,4 @@
-import { Conllu } from '@/types/model/Conllu';
+import { Conllu } from '@/types/Conllu';
 import { ReactElement } from 'react';
 import { Tooltip } from '@mui/material';
 import { viewerConfigurations } from './ConlluViewerConstants';
