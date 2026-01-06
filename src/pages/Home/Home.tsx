@@ -1,138 +1,146 @@
-import ConlluViewer from '@/components/ConlluViewer';
-import Header from '@/components/Header';
-import UDTreeView from '@/components/UDTreeView';
-import ConlluUtils from '@/functions/ConlluUtils';
-import { Conllu } from '@/types/model/Conllu';
-import {
-  faDownload,
-  faExpand,
-  faUpRightAndDownLeftFromCenter,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
-import { Button, Card, Form, Nav, Tab } from 'react-bootstrap';
+import ConlluEditor from '@/components/ConlluEditor';
+import ConlluViewer from '@/components/ConlluViewer/ConlluViewer';
+import Settings from '@/components/Settings';
+import TreeView from '@/components/TreeView';
+import AuthContext from '@/configs/AuthContext';
+import { conllu } from '@/configs/store/actions';
+import ConlluUtils from '@/converter/ConlluUtils';
+import { Button, Tab, Tabs } from '@mui/material';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import './style.scss';
 
 export default function Home() {
-  const { t } = useTranslation('home');
+  const { t } = useTranslation('app');
+  const { state, dispatch } = useContext(AuthContext);
+
   const [resetTree, setResetTree] = useState(false);
-  const [expand, setExpand] = useState(false);
-
   const [value, setValue] = useState('');
-  const [conllu, setConllu] = useState<Conllu>();
-
-  const [sentence, setSentence] = useState<string>('');
+  const [activeTab, setActiveTab] = useState('conllu');
+  const [openSettings, setOpenSettings] = useState(false);
 
   const render = (data: string) => {
     if (!data) return;
     const conlluSentence = ConlluUtils.convertToSentence(data);
-    setSentence(conlluSentence.attributes.text);
-    setConllu(conlluSentence);
+    dispatch(conllu(conlluSentence));
+    setActiveTab('graphical');
+  };
+
+  useEffect(() => {
+    state.conllu && setValue(ConlluUtils.convertToConllu(state.conllu));
+  }, [state.conllu]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey && event.key === 'Enter') {
+        event.preventDefault();
+        render(value);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [value]);
+
+  const isNotEmptyConllu = useMemo(
+    () => ConlluUtils.isNotEmptyConllu(state.conllu),
+    [state.conllu]
+  );
+
+  const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
+    if (newValue === 'tree') {
+      setResetTree(true);
+    }
+    setActiveTab(newValue);
   };
 
   return (
-    <>
-      <Header />
-      <div className="home-container">
-        <div className="sentence-container">
-          <Form.Control
-            placeholder={t('placeholder.parse.sentence')}
-            className="sentence"
-            value={sentence}
-            onChange={(e) => {
-              setSentence(e.target.value);
-            }}
+    <div className="home-container">
+      <div className="tabs">
+        <Tabs
+          value={activeTab}
+          onChange={handleTabChange}
+          className="nav"
+          sx={{
+            flexGrow: 1,
+            '& .MuiTabs-indicator': {
+              display: 'none',
+            },
+          }}
+        >
+          <Tab
+            label={t('tab.label.conllu')}
+            value="conllu"
+            className="nav-item"
           />
-        </div>
-        <Card className="conllu-container">
-          <Card.Header>
-            <span>CoNLL-U</span>
-            <div className="buttons">
+          <Tab
+            label={t('tab.label.graphical')}
+            value="graphical"
+            className="nav-item"
+            disabled={!isNotEmptyConllu}
+          />
+          <Tab
+            label={t('tab.label.viewer')}
+            value="editor"
+            className="nav-item"
+            disabled={!isNotEmptyConllu}
+          />
+          <Tab
+            label={t('tab.label.tree')}
+            value="tree"
+            className="nav-item"
+            disabled={!isNotEmptyConllu}
+          />
+        </Tabs>
+        <Button
+          className="nav-item settings-tab"
+          onClick={() => setOpenSettings(true)}
+        >
+          {t('tab.label.settings')}
+        </Button>
+      </div>
+      <div className="content">
+        {activeTab === 'conllu' && (
+          <div className="tabpanel" role="tabpanel">
+            <div className="textarea-container">
               <Button
-                variant="success"
-                className="ms-auto"
+                variant="contained"
+                color="success"
                 onClick={() => render(value)}
+                className="render-button"
               >
-                <span>{t('button.label.render')}</span>
+                {t('button.label.render')}
               </Button>
+              <textarea
+                className="expression"
+                placeholder={t('placeholder.render.conllu')}
+                value={value}
+                onChange={(e) => {
+                  setValue(e.target.value);
+                }}
+              />
             </div>
-          </Card.Header>
-          <Card.Body>
-            <Form.Control
-              className="expression"
-              as="textarea"
-              placeholder={t('placeholder.render.conllu')}
-              value={value}
-              onChange={(e) => {
-                setValue(e.target.value);
-              }}
-              rows={15}
-            />
-          </Card.Body>
-        </Card>
-
-        {conllu && (
-          <Card className="ud-viewer-container">
-            <Tab.Container defaultActiveKey="conllu-viewer">
-              <Card.Header>
-                <Nav>
-                  <Nav.Item>
-                    <Nav.Link eventKey="conllu-viewer">
-                      {t('conllu.viewer.title')}
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item onClick={() => setResetTree(true)}>
-                    <Nav.Link eventKey="ud-tree">{t('ud.tree.title')}</Nav.Link>
-                  </Nav.Item>
-                </Nav>
-
-                <div className="buttons">
-                  <button
-                    className="icon-button"
-                    type="button"
-                    title={t('button.download.tree')}
-                    // onClick={generateImage}
-                  >
-                    <FontAwesomeIcon icon={faDownload} />
-                  </button>
-                  <button
-                    className="icon-button d-none"
-                    type="button"
-                    title={t('button.expand.tree')}
-                    onClick={() => setExpand(!expand)}
-                  >
-                    <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
-                  </button>
-                  <button
-                    className="icon-button"
-                    type="button"
-                    title={t('button.recenter.tree')}
-                    // onClick={reset}
-                  >
-                    <FontAwesomeIcon icon={faExpand} />
-                  </button>
-                </div>
-              </Card.Header>
-              <Card.Body>
-                <Tab.Content>
-                  <Tab.Pane eventKey="conllu-viewer">
-                    <ConlluViewer conllu={conllu} />
-                  </Tab.Pane>
-                  <Tab.Pane eventKey="ud-tree">
-                    <UDTreeView
-                      conllu={conllu}
-                      expand={expand}
-                      setExpand={setExpand}
-                      resetTree={resetTree}
-                    />
-                  </Tab.Pane>
-                </Tab.Content>
-              </Card.Body>
-            </Tab.Container>
-          </Card>
+          </div>
+        )}
+        {activeTab === 'editor' && isNotEmptyConllu && (
+          <div className="tabpanel" role="tabpanel">
+            <ConlluViewer />
+          </div>
+        )}
+        {activeTab === 'graphical' && isNotEmptyConllu && (
+          <div className="tabpanel" role="tabpanel">
+            <ConlluEditor />
+          </div>
+        )}
+        {activeTab === 'tree' && isNotEmptyConllu && (
+          <div className="tabpanel" role="tabpanel">
+            <TreeView resetTree={resetTree} setResetTree={setResetTree} />
+          </div>
         )}
       </div>
-    </>
+      {openSettings && <Settings onClose={() => setOpenSettings(false)} />}
+    </div>
   );
 }

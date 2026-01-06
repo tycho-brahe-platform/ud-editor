@@ -1,6 +1,6 @@
-import React, { createContext, useMemo, useReducer } from "react";
-import reducer from "./store/reducer";
-import { StoreAction, UserStore } from "./store/types";
+import React, { createContext, useMemo, useReducer } from 'react';
+import reducer from './store/reducer';
+import { StoreAction, UserStore } from './store/types';
 
 type ProviderProps = {
   store: UserStore;

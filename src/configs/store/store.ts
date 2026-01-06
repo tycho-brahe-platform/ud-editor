@@ -1,9 +1,6 @@
-import { EMPTY_TOAST } from '@/components/App/AppToast/ToastMessage';
+import { EMPTY_CONLLU } from '@/types/Conllu';
 import { UserStore } from './types';
 
-const store: UserStore = {
-  toastLoading: false,
-  message: EMPTY_TOAST,
-};
+const store: UserStore = { conllu: EMPTY_CONLLU };
 
 export default store;

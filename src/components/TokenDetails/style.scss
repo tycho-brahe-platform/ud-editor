@@ -1,0 +1,19 @@
+.token-details-modal {
+  form {
+    width: 100%;
+  }
+
+  .token-details-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+
+    .token-details-field {
+      flex: 1;
+    }
+  }
+
+  .token-details-field {
+    width: 100%;
+  }
+}

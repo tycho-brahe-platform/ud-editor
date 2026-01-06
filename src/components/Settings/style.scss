@@ -1,0 +1,11 @@
+.settings-modal {
+  .settings-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .settings-field {
+    margin-top: 8px;
+  }
+}

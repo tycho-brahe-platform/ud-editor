@@ -1,16 +1,14 @@
-import ToastMessage from '@/components/App/AppToast/ToastMessage';
+import { Conllu } from '@/types/Conllu';
 
 export type UserStore = {
-  toastLoading: boolean;
-  message: ToastMessage;
+  conllu: Conllu;
 };
 
 export type StoreAction = {
   type: string;
-  payload?: boolean | ToastMessage;
+  payload?: Conllu;
 };
 
 export const types = {
-  MESSAGE: 'MESSAGE',
-  TOAST_LOADING: 'TOAST_LOADING',
+  CONLLU: 'CONLLU',
 };
