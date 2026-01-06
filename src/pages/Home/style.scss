@@ -1,12 +1,61 @@
 .home-container {
-  margin-top: 48px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .tabs {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: var(--border-default);
+    flex-shrink: 0;
+    padding-right: 16px;
+
+    .Mui-selected {
+      font-weight: var(--font-weight-large);
+    }
+  }
+
+  .content {
+    padding: 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    .tabpanel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+  }
+
+  .textarea-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .render-button {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      z-index: 1;
+    }
+  }
 
   .expression {
+    width: 100%;
+    height: 100%;
     font-family: 'Courier New', Courier, monospace;
     font-size: var(--font-size-body);
     white-space: nowrap;
-    border: 0;
-    height: 48vh;
+    border: var(--border-default);
+    padding: 14px;
+    resize: none;
+    box-sizing: border-box;
   }
 
   .sentence-container {
@@ -21,45 +70,6 @@
 
   .conllu-container {
     margin-top: 16px;
-
-    .card-header {
-      display: flex;
-      align-items: center;
-
-      .buttons {
-        margin-left: auto;
-      }
-    }
-
-    .card-body {
-      padding: 0px;
-    }
-  }
-
-  .card-body {
-    padding: 0px;
-  }
-
-  .nav {
-    display: flex;
-    align-items: center;
-    font-weight: var(--font-weight-large);
-    padding-left: 8px;
-
-    .nav-item {
-      a {
-        font-weight: var(--font-weight-large);
-        color: var(--color-dark);
-
-        &.active {
-          background-color: var(--color-button-hover);
-        }
-      }
-    }
-
-    .buttons {
-      margin: 0px 8px 0px auto;
-    }
   }
 
   .ud-viewer-container {

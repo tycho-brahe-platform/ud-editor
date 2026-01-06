@@ -1,85 +1,61 @@
-import Conditional from '@/components/App/Conditional';
-import React from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import { Box, Button, Fade, Modal } from '@mui/material';
+import cx from 'classnames';
 import { useTranslation } from 'react-i18next';
+import Icon from '../Icon';
 import './style.scss';
 
-type ContainerProps = {
+type Props = {
   children: React.ReactNode;
   title: string;
-  className?: string;
   close: () => void;
   confirm?: () => void;
-  open?: boolean;
-  disableConfirm?: boolean;
-  hideFooter?: boolean;
-  disableCancel?: boolean;
-  disableClose?: boolean;
-  confirmLabel?: string;
-  onShow?: () => void;
-  closeLabel?: string;
+  cancel?: () => void;
+  subtitle?: string;
+  className?: string;
   onEntered?: () => void;
 };
 
-function AppModal({
-  title,
+export default function AppModal({
   children,
-  open,
+  title,
+  subtitle,
   className,
   close,
   confirm,
-  disableConfirm,
-  hideFooter,
-  disableClose,
-  disableCancel,
-  confirmLabel,
-  closeLabel,
-  onShow,
   onEntered,
-}: ContainerProps) {
-  const { t } = useTranslation('header');
+}: Props) {
+  const { t } = useTranslation('app');
+
+  const getClassNames = cx('modal-container', className);
+
   return (
-    <Conditional if={open}>
-      <Modal
-        show
-        centered
-        dialogClassName={className}
-        onShow={() => onShow && onShow()}
-        onEntered={() => onEntered && onEntered()}
-      >
-        <Modal.Header>
-          <Modal.Title className="text-center">{title}</Modal.Title>
-          {!disableClose && (
-            <button
-              type="button"
-              className="btn-close btn-close-white"
-              aria-label="Close"
-              onClick={close}
-            />
-          )}
-        </Modal.Header>
-        <Modal.Body>{children}</Modal.Body>
-        {!hideFooter ? (
-          <Modal.Footer>
-            {!disableCancel && (
-              <Button variant="danger" onClick={close}>
-                {closeLabel || t('message:modal.button.cancel')}
-              </Button>
-            )}
-            {confirm && (
-              <Button
-                variant="success"
-                onClick={confirm}
-                disabled={disableConfirm}
-              >
-                {confirmLabel || t('message:modal.button.confirm')}
-              </Button>
-            )}
-          </Modal.Footer>
-        ) : null}
-      </Modal>
-    </Conditional>
+    <Modal open disableEnforceFocus disableAutoFocus disableRestoreFocus>
+      <Fade in onEntered={() => onEntered && onEntered()}>
+        <Box className={getClassNames} sx={style}>
+          <div className="header">
+            <span className="title">{title}</span>
+            <Icon name="close" onClick={close} className="pointer" />
+          </div>
+          <div className="body">{children}</div>
+          <div className="footer">
+            <Button variant="contained" color="primary" onClick={confirm}>
+              {t('button.confirm')}
+            </Button>
+          </div>
+        </Box>
+      </Fade>
+    </Modal>
   );
 }
 
-export default AppModal;
+const style = {
+  position: 'absolute',
+  top: '40%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '50%',
+  maxWidth: '1080px',
+  borderRadius: '2px',
+  boxShadow: 24,
+  bgcolor: 'var(--color-background)',
+};

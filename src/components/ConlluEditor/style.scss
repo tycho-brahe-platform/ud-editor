@@ -1,0 +1,68 @@
+.conllu-viewer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 88vh;
+  text-align: center;
+  position: relative;
+  overflow: auto;
+  background-color: white;
+
+  #canvas {
+    max-width: 100%;
+    max-height: calc(88vh - 32px);
+    padding: 16px 0px;
+    background-color: white;
+    margin: auto;
+    display: block;
+
+    .item-postag {
+      fill: #000;
+      font-size: var(--font-size-body);
+    }
+
+    .item-text {
+      fill: #000;
+      font-size: var(--font-size-body);
+      font-style: italic;
+      font-weight: var(--font-weight-light);
+    }
+
+    .active-arrow {
+      stroke: var(--color-primary);
+      fill: var(--color-primary);
+      stroke-width: 3px;
+    }
+
+    .active-line {
+      stroke: var(--color-primary);
+      stroke-width: 3px;
+    }
+
+    .active-item {
+      stroke: var(--color-primary);
+      stroke-width: 3px;
+    }
+
+    .drag-over {
+      stroke: var(--color-success, #28a745);
+      stroke-width: 3px;
+      fill: rgba(40, 167, 69, 0.1);
+    }
+
+    .dragging {
+      opacity: 0.5;
+      cursor: grabbing !important;
+    }
+
+    g[style*='cursor: grab'] {
+      cursor: grab !important;
+    }
+
+    g[style*='cursor: grab']:active {
+      cursor: grabbing !important;
+    }
+  }
+}
