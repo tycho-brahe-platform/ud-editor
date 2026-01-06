@@ -21,11 +21,5 @@ export default ({ mode }: { mode: any }) => {
     resolve: {
       alias: [{ find: '@', replacement: path.resolve(__dirname, 'src') }],
     },
-    test: {
-      globals: true,
-      environment: 'jsdom',
-      setupFiles: './src/setupTest.ts',
-      css: false,
-    },
   });
 };
