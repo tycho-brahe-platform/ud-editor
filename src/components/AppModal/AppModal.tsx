@@ -13,6 +13,8 @@ type Props = {
   subtitle?: string;
   className?: string;
   onEntered?: () => void;
+  onDelete?: () => void;
+  deleteLabel?: string;
 };
 
 const attachCloseToEscape = (handleClose: () => void) => {
@@ -31,6 +33,8 @@ export default function AppModal({
   close,
   confirm,
   onEntered,
+  onDelete,
+  deleteLabel,
 }: Props) {
   const { t } = useTranslation('app');
 
@@ -52,9 +56,21 @@ export default function AppModal({
           </div>
           <div className="body">{children}</div>
           <div className="footer">
-            <Button variant="contained" color="primary" onClick={confirm}>
-              {t('button.confirm')}
-            </Button>
+            {onDelete && (
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={onDelete}
+                sx={{ marginRight: 'auto' }}
+              >
+                {deleteLabel || t('button.delete')}
+              </Button>
+            )}
+            {confirm && (
+              <Button variant="contained" color="primary" onClick={confirm}>
+                {t('button.confirm')}
+              </Button>
+            )}
           </div>
         </Box>
       </Fade>

@@ -1,5 +1,4 @@
 import AuthContext from '@/configs/AuthContext';
-import { conllu } from '@/configs/store/actions';
 import { ConlluToken, conlluAttributes } from '@/types/Conllu';
 import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +7,7 @@ import './style.scss';
 
 export default function ConlluViewer() {
   const { t } = useTranslation('app');
-  const { state, dispatch } = useContext(AuthContext);
+  const { state } = useContext(AuthContext);
 
   const [token, setToken] = useState<ConlluToken | null>(null);
   const [selectedTokenIndex, setSelectedTokenIndex] = useState<number>(-1);
@@ -29,19 +28,6 @@ export default function ConlluViewer() {
     setOpenEdit(false);
     setToken(null);
     setSelectedTokenIndex(-1);
-  };
-
-  const handleTokenChange = (updatedToken: ConlluToken) => {
-    if (
-      selectedTokenIndex >= 0 &&
-      selectedTokenIndex < state.conllu.tokens.length
-    ) {
-      const updatedTokens = [...state.conllu.tokens];
-      updatedTokens[selectedTokenIndex] = updatedToken;
-      const updatedConllu = { ...state.conllu, tokens: updatedTokens };
-      dispatch(conllu(updatedConllu));
-      setToken(updatedToken);
-    }
   };
 
   return (
@@ -79,7 +65,6 @@ export default function ConlluViewer() {
           token={token}
           tokenIndex={selectedTokenIndex}
           onClose={handleCloseTokenModal}
-          onTokenChange={handleTokenChange}
         />
       )}
     </>

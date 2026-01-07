@@ -10,6 +10,7 @@ export const AppTexts = {
     'button.label.render': 'Render',
     'button.label.ud': 'Universal Dependencies',
     'button.confirm': 'Confirm',
+    'button.delete': 'Delete',
     'button.tooltip.recenter': 'Recenter',
     'button.tooltip.download': 'Download',
     'placeholder.render.conllu':
@@ -25,6 +26,9 @@ export const AppTexts = {
     'token.details.tokenRange.helperText':
       'Automatically calculated based on token form length',
     'token.details.misc.label': 'MISC (full)',
+    'error.label.title': 'Error',
+    'error.label.redirect': 'Go to home',
+    'error.label.details': 'Click here for error details',
   },
   'pt-BR': {
     'tab.label.conllu': 'CoNLL-U',
@@ -37,6 +41,7 @@ export const AppTexts = {
     'button.label.render': 'Exibir',
     'button.label.ud': 'Dependências Universais',
     'button.confirm': 'Confirmar',
+    'button.delete': 'Excluir',
     'button.tooltip.recenter': 'Recentar',
     'button.tooltip.download': 'Download',
     'placeholder.render.conllu':
@@ -52,6 +57,9 @@ export const AppTexts = {
     'token.details.tokenRange.helperText':
       'Calculado automaticamente com base no comprimento do token',
     'token.details.misc.label': 'MISC (completo)',
+    'error.label.title': 'Erro',
+    'error.label.redirect': 'Ir para a home',
+    'error.label.details': 'Clique aqui para ver os detalhes do erro',
   },
   it: {
     'tab.label.conllu': 'CoNLL-U',
@@ -64,6 +72,7 @@ export const AppTexts = {
     'button.label.render': 'Renderizza',
     'button.label.ud': 'Dipendenze Universali',
     'button.confirm': 'Conferma',
+    'button.delete': 'Elimina',
     'button.tooltip.recenter': 'Ricentralizza',
     'button.tooltip.download': 'Scarica',
     'placeholder.render.conllu':
@@ -79,6 +88,9 @@ export const AppTexts = {
     'token.details.tokenRange.helperText':
       'Calcolato automaticamente in base alla lunghezza del token',
     'token.details.misc.label': 'MISC (completo)',
+    'error.label.title': 'Erreur',
+    'error.label.redirect': 'Aller à la maison',
+    'error.label.details': "Cliquez ici pour voir les détails de l'erreur",
   },
   fr: {
     'tab.label.conllu': 'CoNLL-U',
@@ -91,6 +103,7 @@ export const AppTexts = {
     'button.label.render': 'Rendre',
     'button.label.ud': 'Dépendances Universelles',
     'button.confirm': 'Confirmer',
+    'button.delete': 'Supprimer',
     'button.tooltip.recenter': 'Recentrer',
     'button.tooltip.download': 'Télécharger',
     'placeholder.render.conllu':
@@ -119,6 +132,7 @@ export const AppTexts = {
     'button.label.render': 'Rendern',
     'button.label.ud': 'Universelle Abhängigkeiten',
     'button.confirm': 'Bestätigen',
+    'button.delete': 'Löschen',
     'button.tooltip.recenter': 'Zentrieren',
     'button.tooltip.download': 'Herunterladen',
     'placeholder.render.conllu':
@@ -135,6 +149,9 @@ export const AppTexts = {
     'token.details.tokenRange.helperText':
       'Automatisch basierend auf der Token-Länge berechnet',
     'token.details.misc.label': 'MISC (vollständig)',
+    'error.label.title': 'Fehler',
+    'error.label.redirect': 'Zurück zur Startseite',
+    'error.label.details': 'Klicken Sie hier für Fehlerdetails',
   },
   es: {
     'tab.label.conllu': 'CoNLL-U',
@@ -147,6 +164,7 @@ export const AppTexts = {
     'button.label.render': 'Renderizar',
     'button.label.ud': 'Dependencias Universales',
     'button.confirm': 'Confirmar',
+    'button.delete': 'Eliminar',
     'button.tooltip.recenter': 'Recentrar',
     'button.tooltip.download': 'Descargar',
     'placeholder.render.conllu':
@@ -163,6 +181,9 @@ export const AppTexts = {
     'token.details.tokenRange.helperText':
       'Calculado automáticamente según la longitud del token',
     'token.details.misc.label': 'MISC (completo)',
+    'error.label.title': 'Error',
+    'error.label.redirect': 'Ir a la home',
+    'error.label.details': 'Haga clic aquí para ver los detalles del error',
   },
   ar: {
     'tab.label.conllu': 'CoNLL-U',
@@ -175,6 +196,7 @@ export const AppTexts = {
     'button.label.render': 'عرض',
     'button.label.ud': 'التبعيات العالمية',
     'button.confirm': 'تأكيد',
+    'button.delete': 'حذف',
     'button.tooltip.recenter': 'إعادة التمركز',
     'button.tooltip.download': 'تحميل',
     'placeholder.render.conllu': 'اكتب أو الصق جملة CoNLL-U الخاصة بك للعرض',
@@ -189,6 +211,9 @@ export const AppTexts = {
     'token.details.tokenRange.helperText':
       'محسوب تلقائياً بناءً على طول الرمز المميز',
     'token.details.misc.label': 'MISC (كامل)',
+    'error.label.title': 'خطأ',
+    'error.label.redirect': 'العودة إلى الرئيسية',
+    'error.label.details': 'اضغط هنا لعرض تفاصيل الخطأ',
   },
   zh: {
     'tab.label.conllu': 'CoNLL-U',
@@ -201,6 +226,7 @@ export const AppTexts = {
     'button.label.render': '渲染',
     'button.label.ud': '通用依存关系',
     'button.confirm': '确认',
+    'button.delete': '删除',
     'button.tooltip.recenter': '重新居中',
     'button.tooltip.download': '下载',
     'placeholder.render.conllu': '输入或粘贴您的 CoNLL-U 句子以进行渲染',
@@ -214,5 +240,8 @@ export const AppTexts = {
     'token.details.tokenRange.label': 'TokenRange（在 MISC 中）',
     'token.details.tokenRange.helperText': '根据词元长度自动计算',
     'token.details.misc.label': 'MISC（完整）',
+    'error.label.title': '错误',
+    'error.label.redirect': '回到首页',
+    'error.label.details': '点击这里查看错误详情',
   },
 };
