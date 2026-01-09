@@ -12,8 +12,7 @@ const router = createBrowserRouter(
     <Route errorElement={<ErrorPage />}>
       <Route path="/" element={<Home />} />
     </Route>
-  ),
-  { basename: import.meta.env.VITE_APP_PUBLIC_URL }
+  )
 );
 
 export default function PublicRoutes() {
