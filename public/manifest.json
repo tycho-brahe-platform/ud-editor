@@ -1,6 +1,6 @@
 {
-  "short_name": "HRO",
-  "name": "HRO Acompanhamento Operacional",
+  "short_name": "ud-editor",
+  "name": "Tycho Universal Dependencies Editor",
   "icons": [{
     "src": "/android-chrome-192x192.png",
     "sizes": "192x192",
