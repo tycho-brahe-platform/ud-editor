@@ -1,5 +1,7 @@
 import AppModal from '@/components/AppModal';
 import AuthContext from '@/configs/AuthContext';
+import { conllu } from '@/configs/store/actions';
+import ConlluUtils from '@/converter/ConlluUtils';
 import Storage from '@/configs/LocalStorage';
 import { ConlluToken } from '@/types/Conllu';
 import { UdTag, UdTagTypeNames } from '@/types/UdTags';
@@ -20,17 +22,15 @@ type TokenDetailsProps = {
   token: ConlluToken | null;
   tokenIndex: number;
   onClose: () => void;
-  onTokenChange?: (updatedToken: ConlluToken) => void;
 };
 
 export default function TokenDetails({
   token,
   tokenIndex,
   onClose,
-  onTokenChange,
 }: TokenDetailsProps) {
   const { t } = useTranslation('app');
-  const { state } = useContext(AuthContext);
+  const { state, dispatch } = useContext(AuthContext);
   const [formData, setFormData] = useState<ConlluToken | null>(token);
 
   // Get extended tags from LocalStorage
@@ -138,10 +138,38 @@ export default function TokenDetails({
     // Don't call onTokenChange here - only on confirm
   };
 
-  const handleConfirm = () => {
-    if (onTokenChange && formData) {
-      onTokenChange(formData);
+  const handleTokenChange = (updatedToken: ConlluToken) => {
+    if (tokenIndex >= 0 && tokenIndex < state.conllu.tokens.length) {
+      const updatedTokens = [...state.conllu.tokens];
+      updatedTokens[tokenIndex] = updatedToken;
+      const updatedConllu = { ...state.conllu, tokens: updatedTokens };
+      dispatch(conllu(updatedConllu));
     }
+  };
+
+  const handleTokenDelete = (tokenIndexToDelete: number) => {
+    if (
+      tokenIndexToDelete >= 0 &&
+      tokenIndexToDelete < state.conllu.tokens.length
+    ) {
+      // Use ConlluUtils.deleteToken to handle ID and HEAD reference updates
+      const updatedConllu = ConlluUtils.deleteToken(
+        state.conllu,
+        tokenIndexToDelete
+      );
+      dispatch(conllu(updatedConllu));
+    }
+  };
+
+  const handleConfirm = () => {
+    if (formData) {
+      handleTokenChange(formData);
+    }
+    onClose();
+  };
+
+  const handleDelete = () => {
+    handleTokenDelete(tokenIndex);
     onClose();
   };
 
@@ -181,6 +209,7 @@ export default function TokenDetails({
       title={t('token.details.title')}
       close={onClose}
       confirm={handleConfirm}
+      onDelete={handleDelete}
     >
       <div className="token-details-modal">
         <form>

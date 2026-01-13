@@ -5,15 +5,14 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from 'react-router-dom';
-import NotFound from './session/NotFound';
+import ErrorPage from './session/ErrorPage';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route errorElement={<NotFound />}>
+    <Route errorElement={<ErrorPage />}>
       <Route path="/" element={<Home />} />
     </Route>
-  ),
-  { basename: import.meta.env.VITE_APP_PUBLIC_URL }
+  )
 );
 
 export default function PublicRoutes() {

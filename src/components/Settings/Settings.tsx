@@ -14,13 +14,13 @@ import './style.scss';
 
 const languages = [
   { value: 'en', label: 'English' },
-  { value: 'ar', label: 'Arabic' },
   { value: 'de', label: 'Deutsch' },
   { value: 'es', label: 'Español' },
   { value: 'fr', label: 'Français' },
   { value: 'it', label: 'Italiano' },
   { value: 'pt-BR', label: 'Português (Brasil)' },
   { value: 'zh', label: 'Chinese' },
+  { value: 'ar', label: 'Arabic' },
 ];
 
 type Props = {

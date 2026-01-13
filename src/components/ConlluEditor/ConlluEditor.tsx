@@ -48,19 +48,6 @@ export default function ConlluEditor() {
     setSelectedTokenIndex(-1);
   };
 
-  const handleTokenChange = (updatedToken: ConlluToken) => {
-    if (
-      selectedTokenIndex >= 0 &&
-      selectedTokenIndex < state.conllu.tokens.length
-    ) {
-      const updatedTokens = [...state.conllu.tokens];
-      updatedTokens[selectedTokenIndex] = updatedToken;
-      const updatedConllu = { ...state.conllu, tokens: updatedTokens };
-      dispatch(conllu(updatedConllu));
-      setSelectedToken(updatedToken);
-    }
-  };
-
   const handleGenerateImage = () => {
     if (!svgRef.current) {
       throw new Error('SVG element not found');
@@ -120,7 +107,6 @@ export default function ConlluEditor() {
           token={selectedToken}
           tokenIndex={selectedTokenIndex}
           onClose={handleCloseTokenModal}
-          onTokenChange={handleTokenChange}
         />
       )}
     </div>

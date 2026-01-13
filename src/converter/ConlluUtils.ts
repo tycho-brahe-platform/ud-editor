@@ -128,11 +128,111 @@ const uuid = () =>
     return v.toString(16);
   });
 
+/**
+ * Deletes a token from the Conllu structure and updates all related references.
+ * - Updates token IDs to maintain sequential order (1, 2, 3, ...)
+ * - Updates HEAD references: if HEAD points to deleted token, points to previous token (or first if deleted was first)
+ * - Decrements HEAD references that point to tokens after the deleted one
+ */
+const deleteToken = (conllu: Conllu, tokenIndex: number): Conllu => {
+  if (tokenIndex < 0 || tokenIndex >= conllu.tokens.length) {
+    return conllu;
+  }
+
+  // Get the ID of the token being deleted (as number for comparison)
+  const deletedToken = conllu.tokens[tokenIndex];
+  const deletedTokenId = deletedToken.id;
+  const deletedTokenIdNum = Number(deletedTokenId);
+
+  // Calculate the new ID of the token before the deleted one
+  // After deletion and renumbering, if we delete at index i:
+  // - Token at index i-1 will have new ID = i (which is String(i))
+  // - If deleting first token (index 0), the new first token will have ID "1"
+  const previousTokenNewId =
+    tokenIndex > 0 ? String(tokenIndex) : conllu.tokens.length > 1 ? '1' : '0';
+
+  // Remove the token at the specified index
+  const updatedTokens = conllu.tokens.filter(
+    (_, index) => index !== tokenIndex
+  );
+
+  // Update IDs to be sequential (1, 2, 3, ...)
+  const tokensWithUpdatedIds = updatedTokens.map((token, index) => ({
+    ...token,
+    id: String(index + 1),
+  }));
+
+  // Update HEAD references based on the old IDs before deletion
+  const tokensWithUpdatedHeads = tokensWithUpdatedIds.map((token, newIndex) => {
+    // Get the original token (before ID update) to check its original HEAD
+    const originalToken = updatedTokens[newIndex];
+
+    // Skip if HEAD is empty, null, or '_'
+    if (
+      !originalToken.head ||
+      originalToken.head === '_' ||
+      originalToken.head === ''
+    ) {
+      return token;
+    }
+
+    const headIdNum = Number(originalToken.head);
+
+    // If HEAD points to the deleted token, point to the previous token (or first if deleted was first)
+    if (originalToken.head === deletedTokenId) {
+      return {
+        ...token,
+        head: previousTokenNewId,
+      };
+    }
+
+    // If HEAD points to a token after the deleted one, decrement it by 1
+    if (headIdNum > deletedTokenIdNum) {
+      return {
+        ...token,
+        head: String(headIdNum - 1),
+      };
+    }
+
+    // If HEAD points to a token before the deleted one, no change needed
+    // But we need to ensure the HEAD value is still valid after renumbering
+    // Since tokens before the deleted one keep their relative positions, their IDs don't change
+    // So we can keep the original HEAD value
+    return token;
+  });
+
+  return {
+    ...conllu,
+    tokens: tokensWithUpdatedHeads,
+  };
+};
+
+const parseMultipleSentences = (conllText: string): Conllu[] => {
+  const sentences: Conllu[] = [];
+  const blocks = conllText.split('\n\n').filter((block) => block.trim());
+
+  for (const block of blocks) {
+    const sentence = convertToSentence(block);
+    if (sentence.tokens.length > 0) {
+      sentences.push(sentence);
+    }
+  }
+
+  return sentences;
+};
+
+const getSentenceText = (conllu: Conllu): string => {
+  return conllu.tokens.map((token) => token.form).join(' ');
+};
+
 const ConlluUtils = {
   convertToSentence,
   convertToCytoscape,
   convertToConllu,
   isNotEmptyConllu,
+  deleteToken,
+  parseMultipleSentences,
+  getSentenceText,
 };
 
 export default ConlluUtils;

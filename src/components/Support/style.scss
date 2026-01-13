@@ -1,0 +1,60 @@
+.support-modal {
+  .support-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    .support-description {
+      p {
+        margin: 0 0 16px 0;
+        line-height: 1.6;
+        color: var(--color-text-primary, #333);
+
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+      }
+
+      .support-thanks {
+        font-weight: var(--font-weight-large, 600);
+        margin-top: 8px;
+      }
+    }
+
+    .support-buttons {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 8px;
+
+      .support-button {
+        width: 50%;
+        padding: 8px 0px;
+        text-transform: none;
+        font-size: var(--font-size-regular, 14px);
+        justify-content: center;
+
+        > img {
+          height: 40px;
+        }
+
+        &.buymeacoffee {
+          background-color: #ffdd00;
+
+          &:hover {
+            background-color: #ffd700;
+          }
+        }
+
+        &.paypal {
+          background-color: #0070ba;
+
+          &:hover {
+            background-color: #005ea6;
+          }
+        }
+      }
+    }
+  }
+}
