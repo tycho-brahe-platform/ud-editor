@@ -5,6 +5,7 @@ export const AppTexts = {
     'tab.label.viewer': 'ConLL-U Viewer',
     'tab.label.tree': 'Tree',
     'tab.label.settings': 'Settings',
+    'tab.label.support': 'Support',
     'label.empty': 'Empty',
     'button.label.export': 'Export',
     'button.label.render': 'Render',
@@ -26,9 +27,9 @@ export const AppTexts = {
     'token.details.tokenRange.helperText':
       'Automatically calculated based on token form length',
     'token.details.misc.label': 'MISC (full)',
-    'error.label.title': 'Error',
-    'error.label.redirect': 'Go to home',
-    'error.label.details': 'Click here for error details',
+    'error.label.title': 'Ops, something went wrong',
+    'error.label.redirect': 'Click here to go back to the home page',
+    'error.label.details': 'Click here to see the error details',
   },
   'pt-BR': {
     'tab.label.conllu': 'CoNLL-U',
@@ -36,6 +37,7 @@ export const AppTexts = {
     'tab.label.viewer': 'Visualizador CoNLL-U',
     'tab.label.tree': 'Árvore',
     'tab.label.settings': 'Configurações',
+    'tab.label.support': 'Suporte',
     'label.empty': 'Vazio',
     'button.label.export': 'Exportar',
     'button.label.render': 'Exibir',
@@ -57,8 +59,8 @@ export const AppTexts = {
     'token.details.tokenRange.helperText':
       'Calculado automaticamente com base no comprimento do token',
     'token.details.misc.label': 'MISC (completo)',
-    'error.label.title': 'Erro',
-    'error.label.redirect': 'Ir para a home',
+    'error.label.title': 'Ops, algo deu errado',
+    'error.label.redirect': 'Clique aqui para voltar à página inicial',
     'error.label.details': 'Clique aqui para ver os detalhes do erro',
   },
   it: {
@@ -67,6 +69,7 @@ export const AppTexts = {
     'tab.label.viewer': 'Visualizzatore CoNLL-U',
     'tab.label.tree': 'Albero',
     'tab.label.settings': 'Impostazioni',
+    'tab.label.support': 'Supporto',
     'label.empty': 'Vuoto',
     'button.label.export': 'Esporta',
     'button.label.render': 'Renderizza',
@@ -88,9 +91,9 @@ export const AppTexts = {
     'token.details.tokenRange.helperText':
       'Calcolato automaticamente in base alla lunghezza del token',
     'token.details.misc.label': 'MISC (completo)',
-    'error.label.title': 'Erreur',
-    'error.label.redirect': 'Aller à la maison',
-    'error.label.details': "Cliquez ici pour voir les détails de l'erreur",
+    'error.label.title': 'Ops, qualcosa è andato storto',
+    'error.label.redirect': 'Clicca qui per tornare alla home',
+    'error.label.details': "Clicca qui per vedere i dettagli dell'errore",
   },
   fr: {
     'tab.label.conllu': 'CoNLL-U',
@@ -98,6 +101,7 @@ export const AppTexts = {
     'tab.label.viewer': 'Visualiseur CoNLL-U',
     'tab.label.tree': 'Arbre',
     'tab.label.settings': 'Paramètres',
+    'tab.label.support': 'Soutien',
     'label.empty': 'Vide',
     'button.label.export': 'Exporter',
     'button.label.render': 'Rendre',
@@ -120,6 +124,9 @@ export const AppTexts = {
     'token.details.tokenRange.helperText':
       'Calculé automatiquement en fonction de la longueur du token',
     'token.details.misc.label': 'MISC (complet)',
+    'error.label.title': "Ops, quelque chose s'est mal passé",
+    'error.label.redirect': "Cliquez ici pour retourner à la page d'accueil",
+    'error.label.details': "Cliquez ici pour voir les détails de l'erreur",
   },
   de: {
     'tab.label.conllu': 'CoNLL-U',
@@ -127,6 +134,7 @@ export const AppTexts = {
     'tab.label.viewer': 'CoNLL-U Betrachter',
     'tab.label.tree': 'Baum',
     'tab.label.settings': 'Einstellungen',
+    'tab.label.support': 'Unterstützung',
     'label.empty': 'Leer',
     'button.label.export': 'Exportieren',
     'button.label.render': 'Rendern',
@@ -149,7 +157,7 @@ export const AppTexts = {
     'token.details.tokenRange.helperText':
       'Automatisch basierend auf der Token-Länge berechnet',
     'token.details.misc.label': 'MISC (vollständig)',
-    'error.label.title': 'Fehler',
+    'error.label.title': 'Ops, etwas ist schief gelaufen',
     'error.label.redirect': 'Zurück zur Startseite',
     'error.label.details': 'Klicken Sie hier für Fehlerdetails',
   },
@@ -159,6 +167,7 @@ export const AppTexts = {
     'tab.label.viewer': 'Visor CoNLL-U',
     'tab.label.tree': 'Árbol',
     'tab.label.settings': 'Configuración',
+    'tab.label.support': 'Apoyo',
     'label.empty': 'Vacío',
     'button.label.export': 'Exportar',
     'button.label.render': 'Renderizar',
@@ -181,8 +190,8 @@ export const AppTexts = {
     'token.details.tokenRange.helperText':
       'Calculado automáticamente según la longitud del token',
     'token.details.misc.label': 'MISC (completo)',
-    'error.label.title': 'Error',
-    'error.label.redirect': 'Ir a la home',
+    'error.label.title': 'Ops, algo salió mal',
+    'error.label.redirect': 'Haga clic aquí para volver a la página de inicio',
     'error.label.details': 'Haga clic aquí para ver los detalles del error',
   },
   ar: {
@@ -191,6 +200,7 @@ export const AppTexts = {
     'tab.label.viewer': 'عارض CoNLL-U',
     'tab.label.tree': 'شجرة',
     'tab.label.settings': 'الإعدادات',
+    'tab.label.support': 'الدعم',
     'label.empty': 'فارغ',
     'button.label.export': 'تصدير',
     'button.label.render': 'عرض',
@@ -211,8 +221,8 @@ export const AppTexts = {
     'token.details.tokenRange.helperText':
       'محسوب تلقائياً بناءً على طول الرمز المميز',
     'token.details.misc.label': 'MISC (كامل)',
-    'error.label.title': 'خطأ',
-    'error.label.redirect': 'العودة إلى الرئيسية',
+    'error.label.title': 'Ops, حدث خطأ ما',
+    'error.label.redirect': 'اضغط هنا للعودة إلى الرئيسية',
     'error.label.details': 'اضغط هنا لعرض تفاصيل الخطأ',
   },
   zh: {
@@ -221,6 +231,7 @@ export const AppTexts = {
     'tab.label.viewer': 'CoNLL-U 查看器',
     'tab.label.tree': '树',
     'tab.label.settings': '设置',
+    'tab.label.support': '支持',
     'label.empty': '空',
     'button.label.export': '导出',
     'button.label.render': '渲染',
@@ -240,8 +251,8 @@ export const AppTexts = {
     'token.details.tokenRange.label': 'TokenRange（在 MISC 中）',
     'token.details.tokenRange.helperText': '根据词元长度自动计算',
     'token.details.misc.label': 'MISC（完整）',
-    'error.label.title': '错误',
-    'error.label.redirect': '回到首页',
-    'error.label.details': '点击这里查看错误详情',
+    'error.label.title': 'Ops, 发生了错误',
+    'error.label.redirect': '点击这里返回首页',
+    'error.label.details': '点击这里以查看错误详情',
   },
 };

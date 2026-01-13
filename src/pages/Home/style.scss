@@ -10,8 +10,10 @@
     border-bottom: var(--border-default);
     flex-shrink: 0;
     padding-right: 16px;
+    gap: 8px;
 
-    .Mui-selected {
+    .Mui-selected,
+    .nav-item:hover {
       font-weight: var(--font-weight-large);
     }
   }
@@ -56,23 +58,5 @@
     padding: 14px;
     resize: none;
     box-sizing: border-box;
-  }
-
-  .sentence-container {
-    display: flex;
-
-    .sentence {
-      padding: 12px;
-      font-size: var(--font-size-regular);
-      line-height: 0.5;
-    }
-  }
-
-  .conllu-container {
-    margin-top: 16px;
-  }
-
-  .ud-viewer-container {
-    margin-top: 4px;
   }
 }
