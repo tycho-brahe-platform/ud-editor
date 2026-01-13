@@ -45,6 +45,11 @@ function reducer(state: UserStore, action: any): UserStore {
         updatedState.conllu = updatedSentences[index].conllu;
       }
       return updatedState;
+    case types.SET_FILENAME:
+      return {
+        ...state,
+        filename: (action.payload ?? null) as string | null,
+      };
     default:
       return state;
   }

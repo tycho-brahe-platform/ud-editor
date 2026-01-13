@@ -32,3 +32,10 @@ export const updateSentenceStatus = (
     payload: { index, status },
   };
 };
+
+export const setFilename = (filename: string | null): StoreAction => {
+  return {
+    type: types.SET_FILENAME,
+    payload: filename ?? undefined,
+  };
+};

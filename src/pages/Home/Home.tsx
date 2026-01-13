@@ -47,6 +47,23 @@ export default function Home() {
     };
   }, [value]);
 
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      // Warn user if there are sentences loaded (potential unsaved changes)
+      if (state.sentences.length > 0) {
+        event.preventDefault();
+        // Modern browsers ignore custom messages, but we still need to set returnValue
+        event.returnValue = t('file:warning.unsaved.changes');
+        return event.returnValue;
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [state.sentences.length, t]);
+
   const isNotEmptyConllu = useMemo(
     () => ConlluUtils.isNotEmptyConllu(state.conllu),
     [state.conllu]

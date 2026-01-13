@@ -19,6 +19,14 @@
     flex-shrink: 0;
   }
 
+  .file-drawer-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px;
+  }
+
   .file-upload-container {
     padding: 16px;
     flex-shrink: 0;
@@ -50,10 +58,9 @@
     flex-direction: column;
 
     .sentence-title {
-      font-size: 0.875rem;
-      font-weight: 500;
+      font-size: var(--font-size-body);
+      font-weight: var(--font-weight-large);
       padding: 8px 16px;
-      line-height: 1.57;
     }
 
     .sentence-list {

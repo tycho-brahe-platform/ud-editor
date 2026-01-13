@@ -5,6 +5,7 @@ const store: UserStore = {
   conllu: EMPTY_CONLLU,
   sentences: [],
   selectedIndex: -1,
+  filename: null,
 };
 
 export default store;

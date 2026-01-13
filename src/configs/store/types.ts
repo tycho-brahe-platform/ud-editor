@@ -5,6 +5,7 @@ export type UserStore = {
   conllu: Conllu;
   sentences: SentenceItem[];
   selectedIndex: number;
+  filename: string | null;
 };
 
 export type StoreAction = {
@@ -13,6 +14,8 @@ export type StoreAction = {
     | Conllu
     | SentenceItem[]
     | number
+    | string
+    | null
     | { index: number; status: string };
 };
 
@@ -21,4 +24,5 @@ export const types = {
   SET_SENTENCES: 'SET_SENTENCES',
   SET_SELECTED_INDEX: 'SET_SELECTED_INDEX',
   UPDATE_SENTENCE_STATUS: 'UPDATE_SENTENCE_STATUS',
+  SET_FILENAME: 'SET_FILENAME',
 };

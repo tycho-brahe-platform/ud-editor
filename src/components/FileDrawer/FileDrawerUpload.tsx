@@ -1,5 +1,9 @@
 import AuthContext from '@/configs/AuthContext';
-import { setSentences, setSelectedIndex } from '@/configs/store/actions';
+import {
+  setSentences,
+  setSelectedIndex,
+  setFilename,
+} from '@/configs/store/actions';
 import ConlluUtils from '@/converter/ConlluUtils';
 import SentenceItem from '@/types/SentenceItem';
 import { Typography } from '@mui/material';
@@ -31,6 +35,7 @@ export default function FileDrawerUpload() {
         );
         dispatch(setSentences(sentenceItems));
         dispatch(setSelectedIndex(-1));
+        dispatch(setFilename(file.name));
       }
     };
     reader.readAsText(file);
