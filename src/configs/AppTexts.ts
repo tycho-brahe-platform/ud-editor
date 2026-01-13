@@ -58,7 +58,7 @@ export const AppTexts = {
       'Calculado automaticamente com base no comprimento do token',
     'token.details.misc.label': 'MISC (completo)',
     'error.label.title': 'Ops, algo deu errado',
-    'error.label.redirect': 'Ir para a home',
+    'error.label.redirect': 'Clique aqui para voltar à página inicial',
     'error.label.details': 'Clique aqui para ver os detalhes do erro',
   },
   it: {
@@ -88,9 +88,9 @@ export const AppTexts = {
     'token.details.tokenRange.helperText':
       'Calcolato automaticamente in base alla lunghezza del token',
     'token.details.misc.label': 'MISC (completo)',
-    'error.label.title': "Ops, quelque chose s'est mal passé",
-    'error.label.redirect': 'Aller à la maison',
-    'error.label.details': "Cliquez ici pour voir les détails de l'erreur",
+    'error.label.title': 'Ops, qualcosa è andato storto',
+    'error.label.redirect': 'Clicca qui per tornare alla home',
+    'error.label.details': "Clicca qui per vedere i dettagli dell'errore",
   },
   fr: {
     'tab.label.conllu': 'CoNLL-U',
@@ -121,7 +121,7 @@ export const AppTexts = {
       'Calculé automatiquement en fonction de la longueur du token',
     'token.details.misc.label': 'MISC (complet)',
     'error.label.title': "Ops, quelque chose s'est mal passé",
-    'error.label.redirect': 'Aller à la maison',
+    'error.label.redirect': "Cliquez ici pour retourner à la page d'accueil",
     'error.label.details': "Cliquez ici pour voir les détails de l'erreur",
   },
   de: {
@@ -185,7 +185,7 @@ export const AppTexts = {
       'Calculado automáticamente según la longitud del token',
     'token.details.misc.label': 'MISC (completo)',
     'error.label.title': 'Ops, algo salió mal',
-    'error.label.redirect': 'Ir a la home',
+    'error.label.redirect': 'Haga clic aquí para volver a la página de inicio',
     'error.label.details': 'Haga clic aquí para ver los detalles del error',
   },
   ar: {
