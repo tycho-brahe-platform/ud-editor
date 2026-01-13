@@ -3,6 +3,7 @@ import ConlluViewer from '@/components/ConlluViewer/ConlluViewer';
 import FileDrawer from '@/components/FileDrawer';
 import SentenceNavigation from '@/components/SentenceNavigation';
 import Settings from '@/components/Settings';
+import Support from '@/components/Support';
 import TreeView from '@/components/TreeView';
 import AuthContext from '@/configs/AuthContext';
 import { conllu } from '@/configs/store/actions';
@@ -20,6 +21,7 @@ export default function Home() {
   const [value, setValue] = useState('');
   const [activeTab, setActiveTab] = useState('conllu');
   const [openSettings, setOpenSettings] = useState(false);
+  const [openSupport, setOpenSupport] = useState(false);
   const [openFileDrawer, setOpenFileDrawer] = useState(false);
 
   const render = (data: string) => {
@@ -134,6 +136,12 @@ export default function Home() {
         >
           {t('tab.label.settings')}
         </Button>
+        <Button
+          className="nav-item settings-tab"
+          onClick={() => setOpenSupport(true)}
+        >
+          {t('tab.label.support')}
+        </Button>
       </div>
       <div className="content">
         {activeTab === 'conllu' && (
@@ -175,6 +183,7 @@ export default function Home() {
         )}
       </div>
       {openSettings && <Settings onClose={() => setOpenSettings(false)} />}
+      {openSupport && <Support onClose={() => setOpenSupport(false)} />}
       <FileDrawer
         open={openFileDrawer}
         onClose={() => {
