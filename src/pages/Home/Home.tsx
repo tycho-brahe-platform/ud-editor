@@ -1,5 +1,7 @@
 import ConlluEditor from '@/components/ConlluEditor';
 import ConlluViewer from '@/components/ConlluViewer/ConlluViewer';
+import FileDrawer from '@/components/FileDrawer';
+import SentenceNavigation from '@/components/SentenceNavigation';
 import Settings from '@/components/Settings';
 import TreeView from '@/components/TreeView';
 import AuthContext from '@/configs/AuthContext';
@@ -11,13 +13,14 @@ import { useTranslation } from 'react-i18next';
 import './style.scss';
 
 export default function Home() {
-  const { t } = useTranslation('app');
+  const { t } = useTranslation(['app', 'file']);
   const { state, dispatch } = useContext(AuthContext);
 
   const [resetTree, setResetTree] = useState(false);
   const [value, setValue] = useState('');
   const [activeTab, setActiveTab] = useState('conllu');
   const [openSettings, setOpenSettings] = useState(false);
+  const [openFileDrawer, setOpenFileDrawer] = useState(false);
 
   const render = (data: string) => {
     if (!data) return;
@@ -53,7 +56,11 @@ export default function Home() {
     if (newValue === 'tree') {
       setResetTree(true);
     }
-    setActiveTab(newValue);
+    if (newValue === 'file') {
+      setOpenFileDrawer(true);
+    } else {
+      setActiveTab(newValue);
+    }
   };
 
   return (
@@ -70,6 +77,11 @@ export default function Home() {
             },
           }}
         >
+          <Tab
+            label={t('file:tab.label.file')}
+            value="file"
+            className="nav-item"
+          />
           <Tab
             label={t('tab.label.conllu')}
             value="conllu"
@@ -94,6 +106,11 @@ export default function Home() {
             disabled={!isNotEmptyConllu}
           />
         </Tabs>
+        <SentenceNavigation
+          onSentenceSelect={() => {
+            setActiveTab('graphical');
+          }}
+        />
         <Button
           className="nav-item settings-tab"
           onClick={() => setOpenSettings(true)}
@@ -141,6 +158,15 @@ export default function Home() {
         )}
       </div>
       {openSettings && <Settings onClose={() => setOpenSettings(false)} />}
+      <FileDrawer
+        open={openFileDrawer}
+        onClose={() => {
+          setOpenFileDrawer(false);
+        }}
+        onSentenceSelect={() => {
+          setActiveTab('graphical');
+        }}
+      />
     </div>
   );
 }

@@ -207,12 +207,32 @@ const deleteToken = (conllu: Conllu, tokenIndex: number): Conllu => {
   };
 };
 
+const parseMultipleSentences = (conllText: string): Conllu[] => {
+  const sentences: Conllu[] = [];
+  const blocks = conllText.split('\n\n').filter((block) => block.trim());
+
+  for (const block of blocks) {
+    const sentence = convertToSentence(block);
+    if (sentence.tokens.length > 0) {
+      sentences.push(sentence);
+    }
+  }
+
+  return sentences;
+};
+
+const getSentenceText = (conllu: Conllu): string => {
+  return conllu.tokens.map((token) => token.form).join(' ');
+};
+
 const ConlluUtils = {
   convertToSentence,
   convertToCytoscape,
   convertToConllu,
   isNotEmptyConllu,
   deleteToken,
+  parseMultipleSentences,
+  getSentenceText,
 };
 
 export default ConlluUtils;

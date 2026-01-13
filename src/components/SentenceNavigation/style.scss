@@ -1,0 +1,20 @@
+.sentence-navigation {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 8px;
+
+  .sentence-counter {
+    font-size: var(--font-size-small);
+    color: var(--color-primary-alternative);
+    min-width: 60px;
+    text-align: center;
+  }
+
+  .status-button {
+    margin-left: 8px;
+    text-transform: none;
+    font-size: var(--font-size-small);
+    padding: 4px 12px;
+  }
+}

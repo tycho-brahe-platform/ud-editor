@@ -6,7 +6,7 @@ import './style.scss';
 
 export default function ErrorPage() {
   const navigate = useNavigate();
-  const { t } = useTranslation('login');
+  const { t } = useTranslation('app');
   const error = useRouteError();
   const [show, setShow] = useState(false);
 

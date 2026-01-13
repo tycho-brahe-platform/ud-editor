@@ -26,9 +26,9 @@ export const AppTexts = {
     'token.details.tokenRange.helperText':
       'Automatically calculated based on token form length',
     'token.details.misc.label': 'MISC (full)',
-    'error.label.title': 'Error',
-    'error.label.redirect': 'Go to home',
-    'error.label.details': 'Click here for error details',
+    'error.label.title': 'Ops, something went wrong',
+    'error.label.redirect': 'Click here to go back to the home page',
+    'error.label.details': 'Click here to see the error details',
   },
   'pt-BR': {
     'tab.label.conllu': 'CoNLL-U',
@@ -57,7 +57,7 @@ export const AppTexts = {
     'token.details.tokenRange.helperText':
       'Calculado automaticamente com base no comprimento do token',
     'token.details.misc.label': 'MISC (completo)',
-    'error.label.title': 'Erro',
+    'error.label.title': 'Ops, algo deu errado',
     'error.label.redirect': 'Ir para a home',
     'error.label.details': 'Clique aqui para ver os detalhes do erro',
   },
@@ -88,7 +88,7 @@ export const AppTexts = {
     'token.details.tokenRange.helperText':
       'Calcolato automaticamente in base alla lunghezza del token',
     'token.details.misc.label': 'MISC (completo)',
-    'error.label.title': 'Erreur',
+    'error.label.title': "Ops, quelque chose s'est mal passé",
     'error.label.redirect': 'Aller à la maison',
     'error.label.details': "Cliquez ici pour voir les détails de l'erreur",
   },
@@ -120,6 +120,9 @@ export const AppTexts = {
     'token.details.tokenRange.helperText':
       'Calculé automatiquement en fonction de la longueur du token',
     'token.details.misc.label': 'MISC (complet)',
+    'error.label.title': "Ops, quelque chose s'est mal passé",
+    'error.label.redirect': 'Aller à la maison',
+    'error.label.details': "Cliquez ici pour voir les détails de l'erreur",
   },
   de: {
     'tab.label.conllu': 'CoNLL-U',
@@ -149,7 +152,7 @@ export const AppTexts = {
     'token.details.tokenRange.helperText':
       'Automatisch basierend auf der Token-Länge berechnet',
     'token.details.misc.label': 'MISC (vollständig)',
-    'error.label.title': 'Fehler',
+    'error.label.title': 'Ops, etwas ist schief gelaufen',
     'error.label.redirect': 'Zurück zur Startseite',
     'error.label.details': 'Klicken Sie hier für Fehlerdetails',
   },
@@ -181,7 +184,7 @@ export const AppTexts = {
     'token.details.tokenRange.helperText':
       'Calculado automáticamente según la longitud del token',
     'token.details.misc.label': 'MISC (completo)',
-    'error.label.title': 'Error',
+    'error.label.title': 'Ops, algo salió mal',
     'error.label.redirect': 'Ir a la home',
     'error.label.details': 'Haga clic aquí para ver los detalles del error',
   },
@@ -211,8 +214,8 @@ export const AppTexts = {
     'token.details.tokenRange.helperText':
       'محسوب تلقائياً بناءً على طول الرمز المميز',
     'token.details.misc.label': 'MISC (كامل)',
-    'error.label.title': 'خطأ',
-    'error.label.redirect': 'العودة إلى الرئيسية',
+    'error.label.title': 'Ops, حدث خطأ ما',
+    'error.label.redirect': 'اضغط هنا للعودة إلى الرئيسية',
     'error.label.details': 'اضغط هنا لعرض تفاصيل الخطأ',
   },
   zh: {
@@ -240,8 +243,8 @@ export const AppTexts = {
     'token.details.tokenRange.label': 'TokenRange（在 MISC 中）',
     'token.details.tokenRange.helperText': '根据词元长度自动计算',
     'token.details.misc.label': 'MISC（完整）',
-    'error.label.title': '错误',
-    'error.label.redirect': '回到首页',
-    'error.label.details': '点击这里查看错误详情',
+    'error.label.title': 'Ops, 发生了错误',
+    'error.label.redirect': '点击这里返回首页',
+    'error.label.details': '点击这里以查看错误详情',
   },
 };
